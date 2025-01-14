@@ -7,15 +7,11 @@
 
 import Foundation
 
-final class DiskStorageManager {
-    static let shared = DiskStorageManager()
-
+final class DiskStorageManager: StorageManagerProtocol {
     private let fileManager = FileManager.default
     private var documentsDirectory: URL {
         return fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
     }
-
-    private init() {}
 
     func saveCharacters(_ characters: [Character]) {
         let fileURL = documentsDirectory.appendingPathComponent("characters.json")
