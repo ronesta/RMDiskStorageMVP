@@ -21,8 +21,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         let viewController = CharacterViewController()
         let tableViewDataSource = CharacterTableViewDataSource()
-        let networkManager = NetworkManager()
         let storageManager = DiskStorageManager()
+        let networkManager = NetworkManager(storageManager: storageManager)
 
         let presenter = CharacterPresenter(
             view: viewController,
