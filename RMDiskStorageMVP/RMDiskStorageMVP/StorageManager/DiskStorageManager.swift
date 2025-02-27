@@ -9,6 +9,7 @@ import Foundation
 
 final class DiskStorageManager: StorageManagerProtocol {
     private let fileManager = FileManager.default
+
     private var documentsDirectory: URL {
         return fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
     }

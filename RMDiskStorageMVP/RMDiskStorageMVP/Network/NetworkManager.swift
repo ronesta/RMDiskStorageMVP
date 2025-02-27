@@ -9,10 +9,11 @@ import Foundation
 import UIKit
 
 final class NetworkManager: NetworkManagerProtocol {
-    var dataCounter = 1
-    var imageCounter = 1
+    private var dataCounter = 1
+    private var imageCounter = 1
 
-    private let storageManager: StorageManagerProtocol?
+    private let storageManager: StorageManagerProtocol
+
     private let urlString = "https://rickandmortyapi.com/api/character"
 
     init(storageManager: StorageManagerProtocol) {
@@ -62,7 +63,7 @@ final class NetworkManager: NetworkManagerProtocol {
     func loadImage(from urlString: String, completion: @escaping (UIImage?) -> Void) {
         let key = urlString.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? urlString
 
-        if let imageData = storageManager?.loadImage(key: key),
+        if let imageData = storageManager.loadImage(key: key),
            let image = UIImage(data: imageData) {
             completion(image)
             return
@@ -84,7 +85,7 @@ final class NetworkManager: NetworkManagerProtocol {
 
             if let data,
                let image = UIImage(data: data) {
-                self.storageManager?.saveImage(data, key: key)
+                self.storageManager.saveImage(data, key: key)
                 DispatchQueue.main.async {
                     completion(image)
                     print("Load image \(self.imageCounter)")
