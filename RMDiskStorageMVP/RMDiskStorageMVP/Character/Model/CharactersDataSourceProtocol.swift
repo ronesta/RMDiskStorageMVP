@@ -8,6 +8,6 @@
 import Foundation
 import UIKit
 
-protocol CharacterDataSourceProtocol: UITableViewDataSource {
+protocol CharactersDataSourceProtocol: UITableViewDataSource {
     var characters: [Character] { get set }
 }

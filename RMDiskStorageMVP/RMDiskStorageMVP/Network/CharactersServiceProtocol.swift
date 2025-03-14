@@ -6,10 +6,7 @@
 //
 
 import Foundation
-import UIKit
 
-protocol NetworkManagerProtocol {
+protocol CharactersServiceProtocol {
     func getCharacters(completion: @escaping (Result<[Character], Error>) -> Void)
-
-    func loadImage(from urlString: String, completion: @escaping (UIImage?) -> Void)
 }

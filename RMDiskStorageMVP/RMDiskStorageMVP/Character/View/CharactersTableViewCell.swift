@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-final class CharacterTableViewCell: UITableViewCell {
+final class CharactersTableViewCell: UITableViewCell {
     static let id = "CharacterTableViewCell"
 
     private let activityIndicator: UIActivityIndicatorView = {

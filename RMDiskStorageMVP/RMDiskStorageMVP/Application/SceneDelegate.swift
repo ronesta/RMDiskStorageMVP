@@ -19,8 +19,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         let window  = UIWindow(windowScene: windowScene)
 
-        let assembly = CharacterAssembly()
-        let characterViewController = assembly.build()
+        let charactersAssembly = CharactersAssembly()
+        let characterViewController = charactersAssembly.createModule()
 
         window.rootViewController = characterViewController
         self.window = window

@@ -8,22 +8,33 @@
 import UIKit
 import SnapKit
 
-final class CharacterViewController: UIViewController {
+final class CharactersViewController: UIViewController {
     private let tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.separatorStyle = .none
         return tableView
     }()
 
-    var presenter: CharacterPresenterProtocol?
-    var tableViewDataSource: CharacterDataSourceProtocol?
-    // Cannot be injected with initializer, because presenter also needs CharacterViewController for his initializer
+    private let presenter: CharactersPresenterProtocol
+    private let tableViewDataSource: CharactersDataSourceProtocol
+
+    init(presenter: CharactersPresenterProtocol,
+         tableViewDataSource: CharactersDataSourceProtocol
+    ) {
+        self.presenter = presenter
+        self.tableViewDataSource = tableViewDataSource
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
         setupViews()
-        presenter?.viewDidLoad()
+        presenter.viewDidLoad()
     }
 
     private func setupNavigationBar() {
@@ -38,8 +49,9 @@ final class CharacterViewController: UIViewController {
 
         tableView.dataSource = tableViewDataSource
         tableView.delegate = self
-        tableView.register(CharacterTableViewCell.self,
-                           forCellReuseIdentifier: CharacterTableViewCell.id)
+        tableView.register(CharactersTableViewCell.self,
+                           forCellReuseIdentifier: CharactersTableViewCell.id
+        )
 
         tableView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -48,10 +60,9 @@ final class CharacterViewController: UIViewController {
 }
 
 // MARK: - CharacterViewProtocol
-extension CharacterViewController: CharacterViewProtocol {
+extension CharactersViewController: CharactersViewProtocol {
     func updateCharacters(_ characters: [Character]) {
-
-        tableViewDataSource?.characters = characters
+        tableViewDataSource.characters = characters
         tableView.reloadData()
     }
 
@@ -63,7 +74,7 @@ extension CharacterViewController: CharacterViewProtocol {
 }
 
 // MARK: - UITableViewDelegate
-extension CharacterViewController: UITableViewDelegate {
+extension CharactersViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         128
     }

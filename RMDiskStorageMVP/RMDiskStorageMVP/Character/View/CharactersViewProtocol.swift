@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol CharacterViewProtocol: AnyObject {
+protocol CharactersViewProtocol: AnyObject {
     func updateCharacters(_ characters: [Character])
     func showError(_ message: String)
 }

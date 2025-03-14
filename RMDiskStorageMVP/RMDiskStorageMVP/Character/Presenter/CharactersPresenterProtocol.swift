@@ -6,10 +6,7 @@
 //
 
 import Foundation
-import UIKit
 
-protocol CharacterPresenterProtocol: AnyObject {
+protocol CharactersPresenterProtocol: AnyObject {
     func viewDidLoad()
-
-    func loadImage(for character: Character, completion: @escaping (UIImage?) -> Void)
 }

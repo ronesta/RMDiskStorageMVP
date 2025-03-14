@@ -27,19 +27,12 @@ final class DiskStorageManager: StorageManagerProtocol {
     func loadCharacters() -> [Character]? {
         let fileURL = documentsDirectory.appendingPathComponent("characters.json")
 
-        guard fileManager.fileExists(atPath: fileURL.path) else {
+        guard let data = try? Data(contentsOf: fileURL),
+              let characters = try? JSONDecoder().decode([Character].self, from: data) else {
             return nil
         }
 
-        do {
-            let data = try Data(contentsOf: fileURL)
-            let characters = try JSONDecoder().decode([Character].self, from: data)
-
-            return characters
-        } catch {
-            print("Error loading characters: \(error.localizedDescription)")
-            return nil
-        }
+        return characters
     }
 
     func deleteCharacters() {

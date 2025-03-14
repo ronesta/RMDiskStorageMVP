@@ -8,12 +8,12 @@
 import Foundation
 import UIKit
 
-final class CharacterTableViewDataSource: NSObject, UITableViewDataSource, CharacterDataSourceProtocol {
+final class CharactersTableViewDataSource: NSObject, CharactersDataSourceProtocol {
     var characters = [Character]()
-    private let presenter: CharacterPresenterProtocol
+    private let imageLoader: ImageLoaderProtocol
 
-    init(presenter: CharacterPresenterProtocol) {
-        self.presenter = presenter
+    init(imageLoader: ImageLoaderProtocol) {
+        self.imageLoader = imageLoader
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -22,17 +22,17 @@ final class CharacterTableViewDataSource: NSObject, UITableViewDataSource, Chara
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(
-            withIdentifier: CharacterTableViewCell.id,
+            withIdentifier: CharactersTableViewCell.id,
             for: indexPath
-        ) as? CharacterTableViewCell else {
+        ) as? CharactersTableViewCell else {
             return UITableViewCell()
         }
 
         let character = characters[indexPath.row]
 
-        presenter.loadImage(for: character) { image in
+        imageLoader.loadImage(from: character.image) { image in
             DispatchQueue.main.async {
-                guard let currentCell = tableView.cellForRow(at: indexPath) as? CharacterTableViewCell else {
+                guard let currentCell = tableView.cellForRow(at: indexPath) as? CharactersTableViewCell else {
                     return
                 }
 

@@ -6,21 +6,19 @@
 //
 
 import Foundation
-import UIKit
 
-final class CharacterPresenter: CharacterPresenterProtocol {
-    private weak var view: CharacterViewProtocol?
-    private let networkManager: NetworkManagerProtocol
+final class CharactersPresenter: CharactersPresenterProtocol {
+    weak var view: CharactersViewProtocol?
+
+    private let charactersService: CharactersServiceProtocol
     private let storageManager: StorageManagerProtocol
 
     private var characters = [Character]()
 
-    init(view: CharacterViewProtocol?,
-         networkManager: NetworkManagerProtocol,
+    init(charactersService: CharactersServiceProtocol,
          storageManager: StorageManagerProtocol
     ) {
-        self.view = view
-        self.networkManager = networkManager
+        self.charactersService = charactersService
         self.storageManager = storageManager
     }
 
@@ -35,7 +33,7 @@ final class CharacterPresenter: CharacterPresenterProtocol {
             return
         }
 
-        networkManager.getCharacters { [weak self] result in
+        charactersService.getCharacters { [weak self] result in
             guard let self else {
                 return
             }
@@ -49,9 +47,5 @@ final class CharacterPresenter: CharacterPresenterProtocol {
                 self.view?.showError(error.localizedDescription)
             }
         }
-    }
-
-    func loadImage(for character: Character, completion: @escaping (UIImage?) -> Void) {
-        networkManager.loadImage(from: character.image, completion: completion)
     }
 }
