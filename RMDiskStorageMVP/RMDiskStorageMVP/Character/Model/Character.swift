@@ -11,7 +11,7 @@ struct PostCharacters: Codable {
     let results: [Character]
 }
 
-struct Character: Codable {
+struct Character: Codable, Equatable {
     let name: String
     let status: String
     let species: String
@@ -20,6 +20,6 @@ struct Character: Codable {
     let image: String
 }
 
-struct Location: Codable {
+struct Location: Codable, Equatable {
     let name: String
 }
