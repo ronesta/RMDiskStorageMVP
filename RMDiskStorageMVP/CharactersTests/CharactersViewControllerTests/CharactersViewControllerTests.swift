@@ -17,7 +17,9 @@ final class CharactersViewControllerTests: XCTestCase {
         super.setUp()
         mockPresenter = MockPresenter()
         mockDataSource = MockDataSource()
-        viewController = CharactersViewController(presenter: mockPresenter, tableViewDataSource: mockDataSource)
+        viewController = CharactersViewController(presenter: mockPresenter,
+                                                  tableViewDataSource: mockDataSource
+        )
     }
 
     override func tearDown() {
@@ -28,34 +30,52 @@ final class CharactersViewControllerTests: XCTestCase {
     }
 
     func testViewDidLoadCallsPresenterViewDidLoad() {
-        // Даем ViewController загрузиться
         viewController.viewDidLoad()
 
-        // Проверяем, что метод viewDidLoad у Presenter был вызван
-        XCTAssertTrue(mockPresenter.viewDidLoadCalled, "viewDidLoad() должно вызвать presenter.viewDidLoad()")
+        XCTAssertTrue(mockPresenter.viewDidLoadCalled)
     }
 
     func testSetupViews() {
-        // Даем ViewController загрузиться
         viewController.viewDidLoad()
 
-        // Проверяем ли установку dataSource
-        XCTAssertNotNil(viewController.tableView.dataSource, "dataSource должен быть установлен")
-        XCTAssertTrue(viewController.tableView.dataSource === mockDataSource, "dataSource должен быть равен mockDataSource")
+        XCTAssertNotNil(viewController.tableView.dataSource)
+        XCTAssertTrue(viewController.tableView.dataSource === mockDataSource)
 
-        // Проверяем ли установку delegate
-        XCTAssertNotNil(viewController.tableView.delegate, "delegate должен быть установлен")
-        XCTAssertTrue(viewController.tableView.delegate === viewController, "delegate должен быть равен CharactersViewController")
+        XCTAssertNotNil(viewController.tableView.delegate)
+        XCTAssertTrue(viewController.tableView.delegate === viewController)
     }
 
     func testUpdateCharactersReloadsData() {
-        // Подготовка пустого массива персонажей
-        let characters = [Character(name: "John Doe", status: "Alive", species: "Human", gender: "Male", location: Location(name: "Earth"), image: "image_url")]
+        let characters = [
+            Character(name: "John Doe",
+                      status: "Alive",
+                      species: "Human",
+                      gender: "Male",
+                      location: Location(name: "Earth"),
+                      image: "image_url"
+                     ),
+            Character(name: "Morty Smith",
+                      status: "Alive",
+                      species: "Human",
+                      gender: "Male",
+                      location: Location(name: "Earth (C-137)"),
+                      image: "url_to_image"
+                     )
+        ]
 
-        // Обновляем список персонажей
         viewController.updateCharacters(characters)
 
-        // Проверяем, что dataSource содержит нужные персонажи
-        XCTAssertEqual(mockDataSource.characters, characters, "characters должен быть обновлён в DataSource")
+        XCTAssertEqual(mockDataSource.characters, characters)
     }
+
+//    func testShowErrorDisplaysAlert() {
+//        viewController.showError("Test Error")
+//
+//        XCTAssertTrue(viewController.presentedViewController is UIAlertController)
+//
+//        if let alert = viewController.presentedViewController as? UIAlertController {
+//            XCTAssertEqual(alert.title, "Error")
+//            XCTAssertEqual(alert.message, "Test Error")
+//        }
+//    }
 }
