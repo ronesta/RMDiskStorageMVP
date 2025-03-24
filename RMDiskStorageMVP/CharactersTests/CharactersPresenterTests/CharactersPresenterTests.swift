@@ -19,7 +19,9 @@ final class CharactersPresenterTests: XCTestCase {
         mockView = MockCharactersView()
         mockService = MockCharactersService()
         mockStorageManager = MockStorageManager()
-        presenter = CharactersPresenter(charactersService: mockService, storageManager: mockStorageManager)
+        presenter = CharactersPresenter(charactersService: mockService,
+                                        storageManager: mockStorageManager
+        )
         presenter.view = mockView
     }
 
@@ -40,8 +42,8 @@ final class CharactersPresenterTests: XCTestCase {
         XCTAssertTrue(spyPresenter.getCharactersCalled)
     }
 
-    func testGetCharactersSuccessCallsUpdateCharacters() {
-        let expectedCharacters = [
+    func testViewDidLoadWhenCharactersAreSaved() {
+        let savedCharacters = [
             Character(name: "Summer Smith",
                       status: "Alive",
                       species: "Human",
@@ -58,12 +60,40 @@ final class CharactersPresenterTests: XCTestCase {
                      )
         ]
 
-        mockService.characters = expectedCharacters
+        mockStorageManager.characters = savedCharacters
 
         presenter.viewDidLoad()
 
-        XCTAssertTrue(mockView.updateCharactersCalled)
-        XCTAssertEqual(mockView.characters, expectedCharacters)
+        XCTAssertEqual(mockView.characters, savedCharacters)
+        XCTAssertNil(mockView.errorMessage)
+    }
+
+    func testViewDidLoadWhenCharactersAreNotSaved() {
+        let fetchedCharacters = [
+            Character(name: "Rick Sanchez",
+                      status: "Alive",
+                      species: "Human",
+                      gender: "Male",
+                      location: Location(name: "Earth (C-137)"),
+                      image: "url_to_image"
+                     ),
+            Character(name: "Morty Smith",
+                      status: "Alive",
+                      species: "Human",
+                      gender: "Male",
+                      location: Location(name: "Earth (C-137)"),
+                      image: "url_to_image"
+                     )
+
+        ]
+
+        mockService.characters = fetchedCharacters
+
+        presenter.viewDidLoad()
+
+        XCTAssertEqual(mockView.characters, fetchedCharacters)
+        XCTAssertNil(mockView.errorMessage)
+        XCTAssertEqual(mockStorageManager.characters, fetchedCharacters)
     }
 
     func testGetCharactersFailureShowsError() {
@@ -71,7 +101,7 @@ final class CharactersPresenterTests: XCTestCase {
 
         presenter.viewDidLoad()
 
-        XCTAssertTrue(mockView.showErrorCalled)
         XCTAssertNotNil(mockView.errorMessage)
+        XCTAssertNil(mockView.characters)
     }
 }

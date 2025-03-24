@@ -9,22 +9,22 @@ import Foundation
 @testable import RMDiskStorageMVP
 
 final class MockStorageManager: StorageManagerProtocol {
-    var savedCharacters: [Character]?
-    var savedImages = [String: Data]()
+    var characters: [Character]?
+    var images = [String: Data]()
 
     func saveCharacters(_ characters: [Character]) {
-        savedCharacters = characters
+        self.characters = characters
     }
 
     func loadCharacters() -> [Character]? {
-        return savedCharacters
+        return characters
     }
 
     func saveImage(_ image: Data, key: String) {
-        savedImages[key] = image
+        images[key] = image
     }
 
     func loadImage(key: String) -> Data? {
-        return savedImages[key]
+        return images[key]
     }
 }

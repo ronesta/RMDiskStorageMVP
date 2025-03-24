@@ -14,7 +14,8 @@ final class MockCharactersService: CharactersServiceProtocol {
 
     func getCharacters(completion: @escaping (Result<[Character], Error>) -> Void) {
         if shouldReturnError {
-            completion(.failure(NSError(domain: "Test", code: 0, userInfo: nil)))
+            let error = NSError(domain: "Test", code: 0, userInfo: nil)
+            completion(.failure(error))
         } else {
             completion(.success(characters))
         }
