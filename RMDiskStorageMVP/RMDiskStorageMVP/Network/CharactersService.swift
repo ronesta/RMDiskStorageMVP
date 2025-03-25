@@ -6,14 +6,20 @@
 //
 
 import Foundation
+import UIKit
 
 final class CharactersService: CharactersServiceProtocol {
     private var counter = 1
 
-    private let urlString = "https://rickandmortyapi.com/api/character"
+    private let urlString: String
+
+    init(urlString: String = "https://rickandmortyapi.com/api/character") {
+        self.urlString = urlString
+    }
 
     func getCharacters(completion: @escaping (Result<[Character], Error>) -> Void) {
-        guard let url = URL(string: urlString) else {
+        guard let url = URL(string: urlString),
+        UIApplication.shared.canOpenURL(url) else {
             print("Invalid URL")
             completion(.failure(NetworkError.invalidURL))
             return

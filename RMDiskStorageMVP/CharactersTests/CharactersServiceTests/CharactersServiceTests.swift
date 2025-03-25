@@ -8,134 +8,67 @@
 import XCTest
 @testable import RMDiskStorageMVP
 
-final class DataManagerTests: XCTestCase {
-    var dataManager: DataManager!
-    var mockNetworking: MockNetworking!
+final class CharactersServiceTests: XCTestCase {
+    var service: CharactersService!
 
     override func setUp() {
         super.setUp()
-        mockNetworking = MockNetworking()
-        dataManager = DataManager(charactersService: mockNetworking)
+        service = CharactersService()
     }
 
     override func tearDown() {
-        dataManager = nil
-        mockNetworking = nil
+        service = nil
         super.tearDown()
     }
 
-    func testFetchingDataSuccessfully() {
-        let expectedCharacters = [
-            Character(name: "Rick Sanchez",
-                      status: "Alive",
-                      species: "Human",
-                      gender: "Male",
-                      location: Location(name: "Earth (C-137)"),
-                      image: "url_to_image"
-                     ),
-            Character(name: "Morty Smith",
-                      status: "Alive",
-                      species: "Human",
-                      gender: "Male",
-                      location: Location(name: "Earth (C-137)"),
-                      image: "url_to_image"
-                     )
+    func testGetCharactersValidURL() {
+        let expectation = XCTestExpectation(description: "Valid URL")
 
-        ]
-
-        mockNetworking.characters = expectedCharacters
-
-        var actualCharacters: [Character]?
-        dataManager.fetchCharacters { result in
+        service.getCharacters { result in
             switch result {
             case .success(let characters):
-                actualCharacters = characters
-            case .failure:
-                XCTFail()
+                XCTAssertNotNil(characters)
+                XCTAssertGreaterThan(characters.count, 0)
+                expectation.fulfill()
+            case .failure(let error):
+                XCTFail("Expected success, but got error: \(error.localizedDescription)")
             }
         }
 
-        XCTAssertEqual(actualCharacters, expectedCharacters)
+        wait(for: [expectation], timeout: 5.0)
     }
 
-    func testFetchingDataWithError() {
-        mockNetworking.shouldReturnError = true
+    func testGetCharactersInvalidURL() {
+        let service = CharactersService(urlString: "invalid_url")
+        let expectation = expectation(description: "Invalid URL error")
 
-        var receivedError: Error?
-
-        dataManager.fetchCharacters { result in
+        service.getCharacters { result in
             switch result {
-            case .success: XCTFail()
+            case .success(let characters):
+                XCTFail("Expected failure, but got success with characters: \(characters)")
             case .failure(let error):
-                receivedError = error
+                XCTAssertEqual(error as? NetworkError, NetworkError.invalidURL)
+                expectation.fulfill()
             }
         }
 
-        XCTAssertNotNil(receivedError)
+        wait(for: [expectation], timeout: 5.0)
+    }
+
+    func testDecodingError() {
+        let mockService = MockedCharactersService()
+        let expectation = XCTestExpectation(description: "Decoding error")
+
+        mockService.getCharacters { result in
+            switch result {
+            case .success:
+                XCTFail("Expected failure, got success")
+            case .failure(let error):
+                XCTAssertTrue(error is DecodingError, "Expected a decoding error")
+                expectation.fulfill()
+            }
+        }
+
+        wait(for: [expectation], timeout: 5.0)
     }
 }
-
-//final class CharactersServiceTests: XCTestCase {
-//    var service: CharactersService!
-//
-//    override func setUp() {
-//        super.setUp()
-//        service = CharactersService()
-//    }
-//
-//    override func tearDown() {
-//        service = nil
-//        super.tearDown()
-//    }
-//
-//    func testGetCharactersValidURL() {
-//        let expectation = XCTestExpectation(description: "Valid URL")
-//
-//        service.getCharacters { result in
-//            switch result {
-//            case .success(let characters):
-//                XCTAssertNotNil(characters, "Characters should not be nil")
-//                expectation.fulfill()
-//            case .failure(let error):
-//                XCTFail("Expected success, but got error: \(error.localizedDescription)")
-//            }
-//        }
-//
-//        wait(for: [expectation], timeout: 5.0)
-//    }
-//
-//    func testGetCharactersInvalidURL() {
-//        service.urlString = "invalid-url"
-//        let expectation = expectation(description: "Invalid URL")
-//
-//        service.getCharacters { result in
-//            switch result {
-//            case .success(let characters):
-//                XCTFail("Expected failure, but got success with characters: \(characters)")
-//            case .failure(let error):
-//                XCTAssertEqual(error.localizedDescription, NetworkError.invalidURL.localizedDescription)
-//                expectation.fulfill()
-//            }
-//        }
-//
-//        wait(for: [expectation], timeout: 5.0)
-//    }
-//
-//    func testDecodingError() {
-//        // Проверка на случай ошибки декодирования
-//        let expectation = XCTestExpectation(description: "Decoding Error")
-//        service.urlString = "https://rickandmortyapi.com/api/character"
-//
-//        service.getCharacters { result in
-//            switch result {
-//            case .success(let characters):
-//                XCTFail("Expected failure, but got success with characters: \(characters)")
-//            case .failure(let error):
-//                XCTAssertNotNil(error, "Error should not be nil")
-//                expectation.fulfill()
-//            }
-//        }
-//
-//        wait(for: [expectation], timeout: 5.0)
-//    }
-//}
