@@ -68,14 +68,24 @@ final class CharactersViewControllerTests: XCTestCase {
         XCTAssertEqual(mockDataSource.characters, characters)
     }
 
-//    func testShowErrorDisplaysAlert() {
-//        viewController.showError("Test Error")
-//
-//        XCTAssertTrue(viewController.presentedViewController is UIAlertController)
-//
-//        if let alert = viewController.presentedViewController as? UIAlertController {
-//            XCTAssertEqual(alert.title, "Error")
-//            XCTAssertEqual(alert.message, "Test Error")
-//        }
-//    }
+    func testShowErrorDisplaysAlert() {
+        let errorMessage = "Test Error"
+        let expectation = expectation(description: "Wait for alert presentation")
+
+        let window = UIWindow()
+        window.rootViewController = viewController
+        window.makeKeyAndVisible()
+
+        viewController.showError(errorMessage)
+
+        DispatchQueue.main.async {
+            guard let alertController = try? XCTUnwrap(self.viewController.presentedViewController as? UIAlertController) else {
+                return
+            }
+            XCTAssertEqual(alertController.message, errorMessage)
+            expectation.fulfill()
+        }
+
+        wait(for: [expectation], timeout: 2.0)
+    }
 }
