@@ -35,18 +35,6 @@ final class DiskStorageManager: StorageManagerProtocol {
         return characters
     }
 
-    func deleteCharacters() {
-        let fileURL = documentsDirectory.appendingPathComponent("characters.json")
-
-        do {
-            if fileManager.fileExists(atPath: fileURL.path) {
-                try fileManager.removeItem(at: fileURL)
-            }
-        } catch {
-            print("Error deleting characters: \(error.localizedDescription)")
-        }
-    }
-
     func saveImage(_ data: Data, key: String) {
         let fileURL = documentsDirectory.appendingPathComponent("\(key)")
 
@@ -70,18 +58,6 @@ final class DiskStorageManager: StorageManagerProtocol {
         } catch {
             print("Error loading image: \(error.localizedDescription)")
             return nil
-        }
-    }
-
-    func deleteImage(key: String) {
-        let fileURL = documentsDirectory.appendingPathComponent("\(key)")
-
-        do {
-            if fileManager.fileExists(atPath: fileURL.path) {
-                try fileManager.removeItem(at: fileURL)
-            }
-        } catch {
-            print("Error deleting image: \(error.localizedDescription)")
         }
     }
 }
