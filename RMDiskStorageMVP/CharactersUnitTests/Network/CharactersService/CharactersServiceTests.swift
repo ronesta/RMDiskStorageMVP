@@ -56,7 +56,7 @@ final class CharactersServiceTests: XCTestCase {
     }
 
     func testDecodingError() {
-        let mockService = MockedCharactersService()
+        let mockService = MockCharactersServiceWithInvalidJSON()
         let expectation = XCTestExpectation(description: "Decoding error")
 
         mockService.getCharacters { result in

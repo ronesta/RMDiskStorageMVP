@@ -36,9 +36,9 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		E14104412D8DE97900A9F0A6 /* CharactersTests */ = {
+		E14104412D8DE97900A9F0A6 /* CharactersUnitTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = CharactersTests;
+			path = CharactersUnitTests;
 			sourceTree = "<group>";
 		};
 		E1A81B982D30299A00A199A4 /* RMDiskStorageMVP */ = {
@@ -74,7 +74,7 @@
 			isa = PBXGroup;
 			children = (
 				E1A81B982D30299A00A199A4 /* RMDiskStorageMVP */,
-				E14104412D8DE97900A9F0A6 /* CharactersTests */,
+				E14104412D8DE97900A9F0A6 /* CharactersUnitTests */,
 				E1A81B972D30299A00A199A4 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -105,7 +105,7 @@
 				E14104452D8DE97900A9F0A6 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				E14104412D8DE97900A9F0A6 /* CharactersTests */,
+				E14104412D8DE97900A9F0A6 /* CharactersUnitTests */,
 			);
 			name = CharactersPresenterTests;
 			packageProductDependencies = (

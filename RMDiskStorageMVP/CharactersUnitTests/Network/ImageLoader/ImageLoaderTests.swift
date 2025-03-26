@@ -10,26 +10,28 @@ import XCTest
 
 final class ImageLoaderTests: XCTestCase {
     private var imageLoader: ImageLoader!
-    private var storageManagerMock: StorageManagerMock!
+    private var mockStorageManager: MockStorageManager!
 
     override func setUp() {
         super.setUp()
-        storageManagerMock = StorageManagerMock()
-        imageLoader = ImageLoader(storageManager: storageManagerMock)
+        mockStorageManager = MockStorageManager()
+        imageLoader = ImageLoader(storageManager: mockStorageManager)
     }
 
     override func tearDown() {
         imageLoader = nil
-        storageManagerMock = nil
+        mockStorageManager = nil
         super.tearDown()
     }
 
     func testLoadImageFromStorage() {
-        let expectedImage = UIImage(systemName: "star")
-        let imageData = expectedImage?.pngData()
+        guard let imageData = UIImage(named: "testImage")?.pngData() else {
+            return
+        }
 
-        storageManagerMock.imageData = imageData
         let urlString = "https://example.com/image.png"
+
+        mockStorageManager.saveImage(imageData, key: urlString)
 
         let expectation = expectation(description: "Completion called")
 

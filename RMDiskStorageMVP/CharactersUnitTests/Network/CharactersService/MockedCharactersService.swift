@@ -1,14 +1,14 @@
 //
-//  MockCharactersService.swift
+//  MockedCharactersService.swift
 //  RMDiskStorageMVP
 //
-//  Created by Ибрагим Габибли on 25.03.2025.
+//  Created by Ибрагим Габибли on 26.03.2025.
 //
 
 import Foundation
 @testable import RMDiskStorageMVP
 
-final class MockedCharactersService: CharactersServiceProtocol {
+final class MockCharactersServiceWithInvalidJSON: CharactersServiceProtocol {
     func getCharacters(completion: @escaping (Result<[Character], Error>) -> Void) {
         let invalidJSON = "".data(using: .utf8)!
 
