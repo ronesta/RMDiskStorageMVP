@@ -1,5 +1,5 @@
 //
-//  MockedCharactersService.swift
+//  MockCharactersServiceWithInvalidJSON.swift
 //  RMDiskStorageMVP
 //
 //  Created by Ибрагим Габибли on 26.03.2025.
