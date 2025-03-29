@@ -22,6 +22,7 @@ final class CharactersTableViewCell: UITableViewCell {
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 35
+        imageView.accessibilityIdentifier = "characterImageView"
         return imageView
     }()
 
@@ -30,12 +31,14 @@ final class CharactersTableViewCell: UITableViewCell {
         label.font = UIFont.systemFont(ofSize: 20)
         label.adjustsFontSizeToFitWidth = true
         label.minimumScaleFactor = 0.8
+        label.accessibilityIdentifier = "nameLabel"
         return label
     }()
 
     private let speciesAndGenderLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 12)
+        label.accessibilityIdentifier = "speciesAndGenderLabel"
         return label
     }()
 
@@ -47,6 +50,7 @@ final class CharactersTableViewCell: UITableViewCell {
         button.titleLabel?.font = .systemFont(ofSize: 12)
         button.titleLabel?.textAlignment = .center
         button.clipsToBounds = true
+        button.accessibilityIdentifier = "watchEpisodesButton"
         return button
     }()
 
@@ -54,6 +58,7 @@ final class CharactersTableViewCell: UITableViewCell {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
+        imageView.accessibilityIdentifier = "markerImageView"
         return imageView
     }()
 
@@ -63,6 +68,7 @@ final class CharactersTableViewCell: UITableViewCell {
         label.textColor = .black.withAlphaComponent(0.7)
         label.adjustsFontSizeToFitWidth = true
         label.minimumScaleFactor = 0.8
+        label.accessibilityIdentifier = "locationLabel"
         return label
     }()
 
@@ -72,6 +78,7 @@ final class CharactersTableViewCell: UITableViewCell {
         label.layer.cornerRadius = 12
         label.clipsToBounds = true
         label.textAlignment = .center
+        label.accessibilityIdentifier = "statusLabel"
         return label
     }()
 
