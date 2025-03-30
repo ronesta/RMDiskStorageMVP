@@ -16,6 +16,17 @@ final class MockDataSource: NSObject, CharactersDataSourceProtocol {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        UITableViewCell()
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: CharactersTableViewCell.id,
+            for: indexPath
+        ) as? CharactersTableViewCell else {
+            return UITableViewCell()
+        }
+
+        let character = characters[indexPath.row]
+
+        cell.configure(with: character, image: nil)
+
+        return cell
     }
 }

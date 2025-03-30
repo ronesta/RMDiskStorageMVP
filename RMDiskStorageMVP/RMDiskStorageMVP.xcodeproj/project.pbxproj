@@ -7,7 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E1A6D1D22D99A82600BF2A3B /* InlineSnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = E1A6D1D12D99A82600BF2A3B /* InlineSnapshotTesting */; };
+		E1A6D1D42D99A82600BF2A3B /* SnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = E1A6D1D32D99A82600BF2A3B /* SnapshotTesting */; };
+		E1A6D1D62D99A82600BF2A3B /* SnapshotTestingCustomDump in Frameworks */ = {isa = PBXBuildFile; productRef = E1A6D1D52D99A82600BF2A3B /* SnapshotTestingCustomDump */; };
 		E1A81BB02D302A0700A199A4 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = E1A81BAF2D302A0700A199A4 /* SnapKit */; };
+		E1CE54C42D997C7000418B52 /* iOSSnapshotTestCase in Frameworks */ = {isa = PBXBuildFile; productRef = E1CE54C32D997C7000418B52 /* iOSSnapshotTestCase */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -28,7 +32,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		E14104402D8DE97900A9F0A6 /* CharactersUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CharactersUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E14104402D8DE97900A9F0A6 /* CharactersTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CharactersTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E14817CD2D95C5D2000251A7 /* CharactersUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CharactersUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1A81B962D30299A00A199A4 /* RMDiskStorageMVP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RMDiskStorageMVP.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -44,9 +48,9 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		E14104412D8DE97900A9F0A6 /* CharactersUnitTests */ = {
+		E14104412D8DE97900A9F0A6 /* CharactersTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = CharactersUnitTests;
+			path = CharactersTests;
 			sourceTree = "<group>";
 		};
 		E14817CE2D95C5D2000251A7 /* CharactersUITests */ = {
@@ -69,6 +73,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E1A6D1D62D99A82600BF2A3B /* SnapshotTestingCustomDump in Frameworks */,
+				E1A6D1D42D99A82600BF2A3B /* SnapshotTesting in Frameworks */,
+				E1A6D1D22D99A82600BF2A3B /* InlineSnapshotTesting in Frameworks */,
+				E1CE54C42D997C7000418B52 /* iOSSnapshotTestCase in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -94,7 +102,7 @@
 			isa = PBXGroup;
 			children = (
 				E1A81B982D30299A00A199A4 /* RMDiskStorageMVP */,
-				E14104412D8DE97900A9F0A6 /* CharactersUnitTests */,
+				E14104412D8DE97900A9F0A6 /* CharactersTests */,
 				E14817CE2D95C5D2000251A7 /* CharactersUITests */,
 				E1A81B972D30299A00A199A4 /* Products */,
 			);
@@ -104,7 +112,7 @@
 			isa = PBXGroup;
 			children = (
 				E1A81B962D30299A00A199A4 /* RMDiskStorageMVP.app */,
-				E14104402D8DE97900A9F0A6 /* CharactersUnitTests.xctest */,
+				E14104402D8DE97900A9F0A6 /* CharactersTests.xctest */,
 				E14817CD2D95C5D2000251A7 /* CharactersUITests.xctest */,
 			);
 			name = Products;
@@ -113,9 +121,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		E141043F2D8DE97900A9F0A6 /* CharactersUnitTests */ = {
+		E141043F2D8DE97900A9F0A6 /* CharactersTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E14104482D8DE97900A9F0A6 /* Build configuration list for PBXNativeTarget "CharactersUnitTests" */;
+			buildConfigurationList = E14104482D8DE97900A9F0A6 /* Build configuration list for PBXNativeTarget "CharactersTests" */;
 			buildPhases = (
 				E141043C2D8DE97900A9F0A6 /* Sources */,
 				E141043D2D8DE97900A9F0A6 /* Frameworks */,
@@ -127,13 +135,17 @@
 				E14104452D8DE97900A9F0A6 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				E14104412D8DE97900A9F0A6 /* CharactersUnitTests */,
+				E14104412D8DE97900A9F0A6 /* CharactersTests */,
 			);
-			name = CharactersUnitTests;
+			name = CharactersTests;
 			packageProductDependencies = (
+				E1CE54C32D997C7000418B52 /* iOSSnapshotTestCase */,
+				E1A6D1D12D99A82600BF2A3B /* InlineSnapshotTesting */,
+				E1A6D1D32D99A82600BF2A3B /* SnapshotTesting */,
+				E1A6D1D52D99A82600BF2A3B /* SnapshotTestingCustomDump */,
 			);
 			productName = CharactersPresenterTests;
-			productReference = E14104402D8DE97900A9F0A6 /* CharactersUnitTests.xctest */;
+			productReference = E14104402D8DE97900A9F0A6 /* CharactersTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		E14817CC2D95C5D2000251A7 /* CharactersUITests */ = {
@@ -217,6 +229,8 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				E1A81BAE2D302A0700A199A4 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				E1CE54C22D997C7000418B52 /* XCRemoteSwiftPackageReference "ios-snapshot-test-case" */,
+				E1A6D1D02D99A82600BF2A3B /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = E1A81B972D30299A00A199A4 /* Products */;
@@ -224,7 +238,7 @@
 			projectRoot = "";
 			targets = (
 				E1A81B952D30299A00A199A4 /* RMDiskStorageMVP */,
-				E141043F2D8DE97900A9F0A6 /* CharactersUnitTests */,
+				E141043F2D8DE97900A9F0A6 /* CharactersTests */,
 				E14817CC2D95C5D2000251A7 /* CharactersUITests */,
 			);
 		};
@@ -573,7 +587,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		E14104482D8DE97900A9F0A6 /* Build configuration list for PBXNativeTarget "CharactersUnitTests" */ = {
+		E14104482D8DE97900A9F0A6 /* Build configuration list for PBXNativeTarget "CharactersTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E14104462D8DE97900A9F0A6 /* Debug */,
@@ -612,6 +626,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		E1A6D1D02D99A82600BF2A3B /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-snapshot-testing";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.18.1;
+			};
+		};
 		E1A81BAE2D302A0700A199A4 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit";
@@ -620,13 +642,41 @@
 				minimumVersion = 5.7.1;
 			};
 		};
+		E1CE54C22D997C7000418B52 /* XCRemoteSwiftPackageReference "ios-snapshot-test-case" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/uber/ios-snapshot-test-case";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		E1A6D1D12D99A82600BF2A3B /* InlineSnapshotTesting */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E1A6D1D02D99A82600BF2A3B /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */;
+			productName = InlineSnapshotTesting;
+		};
+		E1A6D1D32D99A82600BF2A3B /* SnapshotTesting */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E1A6D1D02D99A82600BF2A3B /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */;
+			productName = SnapshotTesting;
+		};
+		E1A6D1D52D99A82600BF2A3B /* SnapshotTestingCustomDump */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E1A6D1D02D99A82600BF2A3B /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */;
+			productName = SnapshotTestingCustomDump;
+		};
 		E1A81BAF2D302A0700A199A4 /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = E1A81BAE2D302A0700A199A4 /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
+		};
+		E1CE54C32D997C7000418B52 /* iOSSnapshotTestCase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E1CE54C22D997C7000418B52 /* XCRemoteSwiftPackageReference "ios-snapshot-test-case" */;
+			productName = iOSSnapshotTestCase;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -8,7 +8,6 @@
 import XCTest
 
 final class CharactersUITests: XCTestCase {
-
     var app: XCUIApplication!
 
     override func setUpWithError() throws {
@@ -48,15 +47,10 @@ final class CharactersUITests: XCTestCase {
         XCTAssertTrue(statusLabel.exists)
     }
 
-//    func testErrorMessageDisplay() throws {
-//        let showError = app.alerts["Error"]
-//        XCTAssertTrue(showError.exists)
-//    }
-
     func testImageLoadingInCell() throws {
         let firstCell = app.tables.cells.element(boundBy: 0)
         let characterImageView = firstCell.images["characterImageView"]
-        XCTAssertTrue(characterImageView.exists, "Character image view should exist in the first cell.")
+        XCTAssertTrue(characterImageView.exists)
     }
 
     override func tearDownWithError() throws {
