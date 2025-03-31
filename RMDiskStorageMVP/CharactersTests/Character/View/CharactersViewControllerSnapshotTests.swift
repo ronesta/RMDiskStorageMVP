@@ -15,6 +15,7 @@ final class CharactersViewControllerSnapshotTests: XCTestCase {
         let dataSource = MockDataSource()
 
         let viewController = CharactersViewController(presenter: presenter, tableViewDataSource: dataSource)
+        let navigationController = UINavigationController(rootViewController: viewController)
 
         let characters = [
             Character(name: "John Doe",
@@ -36,7 +37,7 @@ final class CharactersViewControllerSnapshotTests: XCTestCase {
         viewController.loadViewIfNeeded()
         viewController.updateCharacters(characters)
 
-        assertSnapshot(of: viewController, as: .image)
+        assertSnapshot(of: navigationController, as: .image)
     }
 
     func testCharactersViewControllerErrorAppearance() {
@@ -44,10 +45,11 @@ final class CharactersViewControllerSnapshotTests: XCTestCase {
         let dataSource = MockDataSource()
 
         let viewController = CharactersViewController(presenter: presenter, tableViewDataSource: dataSource)
-        viewController.loadViewIfNeeded()
+        let navigationController = UINavigationController(rootViewController: viewController)
 
+        viewController.loadViewIfNeeded()
         viewController.showError("An error occurred")
 
-        assertSnapshot(of: viewController, as: .image)
+        assertSnapshot(of: navigationController, as: .image)
     }
 }
