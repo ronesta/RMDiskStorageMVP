@@ -61,7 +61,7 @@ final class ImageLoaderTests: XCTestCase {
             expectation.fulfill()
         }
 
-        waitForExpectations(timeout: 1.0, handler: nil)
+        wait(for: [expectation], timeout: 1.0)
     }
 
     func testLoadImageInvalidURL() {
