@@ -9,10 +9,10 @@ import XCTest
 @testable import RMDiskStorageMVP
 
 final class CharactersPresenterTests: XCTestCase {
-    var presenter: CharactersPresenter!
-    var mockView: MockCharactersView!
-    var mockService: MockCharactersService!
-    var mockStorageManager: MockStorageManager!
+    private var presenter: CharactersPresenter!
+    private var mockView: MockCharactersView!
+    private var mockService: MockCharactersService!
+    private var mockStorageManager: MockStorageManager!
 
     override func setUp() {
         super.setUp()
@@ -60,7 +60,7 @@ final class CharactersPresenterTests: XCTestCase {
                      )
         ]
 
-        mockStorageManager.characters = savedCharacters
+        mockStorageManager.saveCharacters(savedCharacters)
 
         presenter.viewDidLoad()
 

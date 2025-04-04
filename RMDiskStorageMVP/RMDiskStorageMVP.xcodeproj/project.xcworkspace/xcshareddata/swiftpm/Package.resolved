@@ -1,15 +1,6 @@
 {
-  "originHash" : "2b833389b8953bce0f3e10bda7fd27ab75981e278635ba96ae4fcf61a2278fcd",
+  "originHash" : "0a40dd5ebdc1ce5c35fb5f274b9fb16503fa98e0f1683df286826e10ef9648bf",
   "pins" : [
-    {
-      "identity" : "ios-snapshot-test-case",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/uber/ios-snapshot-test-case",
-      "state" : {
-        "revision" : "7b10770333a961be6e5a41c9ce04b8c6d3990126",
-        "version" : "8.0.0"
-      }
-    },
     {
       "identity" : "snapkit",
       "kind" : "remoteSourceControl",
@@ -44,6 +35,15 @@
       "state" : {
         "revision" : "0687f71944021d616d34d922343dcef086855920",
         "version" : "600.0.1"
+      }
+    },
+    {
+      "identity" : "viewcontrollerpresentationspy",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/jonreid/ViewControllerPresentationSpy",
+      "state" : {
+        "branch" : "main",
+        "revision" : "c7d116d972e55eb28f26bc2d12e38d5e64b7471e"
       }
     },
     {

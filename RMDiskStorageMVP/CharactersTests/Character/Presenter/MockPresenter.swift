@@ -8,7 +8,7 @@
 @testable import RMDiskStorageMVP
 
 final class MockPresenter: CharactersPresenterProtocol {
-    var viewDidLoadCalled = false
+    private(set) var viewDidLoadCalled = false
 
     func viewDidLoad() {
         viewDidLoadCalled = true

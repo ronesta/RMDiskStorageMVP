@@ -9,8 +9,8 @@ import Foundation
 @testable import RMDiskStorageMVP
 
 final class MockStorageManager: StorageManagerProtocol {
-    var characters: [Character]?
-    var images = [String: Data]()
+    private(set) var characters: [Character]?
+    private(set) var images = [String: Data]()
 
     func saveCharacters(_ characters: [Character]) {
         self.characters = characters

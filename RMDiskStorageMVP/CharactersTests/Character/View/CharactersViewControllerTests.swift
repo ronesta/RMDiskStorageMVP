@@ -6,12 +6,13 @@
 //
 
 import XCTest
+import ViewControllerPresentationSpy
 @testable import RMDiskStorageMVP
 
 final class CharactersViewControllerTests: XCTestCase {
-    var viewController: CharactersViewController!
-    var mockPresenter: MockPresenter!
-    var mockDataSource: MockDataSource!
+    private var viewController: CharactersViewController!
+    private var mockPresenter: MockPresenter!
+    private var mockDataSource: MockDataSource!
 
     override func setUp() {
         super.setUp()
@@ -68,24 +69,20 @@ final class CharactersViewControllerTests: XCTestCase {
         XCTAssertEqual(mockDataSource.characters, characters)
     }
 
-    func testShowErrorDisplaysAlert() {
+    @MainActor func testShowErrorDisplaysAlert() {
         let errorMessage = "Test Error"
-        let expectation = expectation(description: "Wait for alert presentation")
-
-        let window = UIWindow()
-        window.rootViewController = viewController
-        window.makeKeyAndVisible()
+        let alertVerifier = AlertVerifier()
 
         viewController.showError(errorMessage)
 
-        DispatchQueue.main.async {
-            guard let alertController = try? XCTUnwrap(self.viewController.presentedViewController as? UIAlertController) else {
-                return
-            }
-            XCTAssertEqual(alertController.message, errorMessage)
-            expectation.fulfill()
-        }
-
-        wait(for: [expectation], timeout: 5.0)
+        alertVerifier.verify(
+            title: "Error",
+            message: "Test Error",
+            animated: true,
+            actions: [
+                .default("OK")
+            ],
+            presentingViewController: viewController
+        )
     }
 }

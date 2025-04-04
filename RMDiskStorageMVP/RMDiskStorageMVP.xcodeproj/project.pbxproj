@@ -10,8 +10,8 @@
 		E1A6D1D22D99A82600BF2A3B /* InlineSnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = E1A6D1D12D99A82600BF2A3B /* InlineSnapshotTesting */; };
 		E1A6D1D42D99A82600BF2A3B /* SnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = E1A6D1D32D99A82600BF2A3B /* SnapshotTesting */; };
 		E1A6D1D62D99A82600BF2A3B /* SnapshotTestingCustomDump in Frameworks */ = {isa = PBXBuildFile; productRef = E1A6D1D52D99A82600BF2A3B /* SnapshotTestingCustomDump */; };
+		E1A6D20D2DA02D3F00BF2A3B /* ViewControllerPresentationSpy in Frameworks */ = {isa = PBXBuildFile; productRef = E1A6D20C2DA02D3F00BF2A3B /* ViewControllerPresentationSpy */; };
 		E1A81BB02D302A0700A199A4 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = E1A81BAF2D302A0700A199A4 /* SnapKit */; };
-		E1CE54C42D997C7000418B52 /* iOSSnapshotTestCase in Frameworks */ = {isa = PBXBuildFile; productRef = E1CE54C32D997C7000418B52 /* iOSSnapshotTestCase */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,10 +73,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E1A6D20D2DA02D3F00BF2A3B /* ViewControllerPresentationSpy in Frameworks */,
 				E1A6D1D62D99A82600BF2A3B /* SnapshotTestingCustomDump in Frameworks */,
 				E1A6D1D42D99A82600BF2A3B /* SnapshotTesting in Frameworks */,
 				E1A6D1D22D99A82600BF2A3B /* InlineSnapshotTesting in Frameworks */,
-				E1CE54C42D997C7000418B52 /* iOSSnapshotTestCase in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -139,10 +139,10 @@
 			);
 			name = CharactersTests;
 			packageProductDependencies = (
-				E1CE54C32D997C7000418B52 /* iOSSnapshotTestCase */,
 				E1A6D1D12D99A82600BF2A3B /* InlineSnapshotTesting */,
 				E1A6D1D32D99A82600BF2A3B /* SnapshotTesting */,
 				E1A6D1D52D99A82600BF2A3B /* SnapshotTestingCustomDump */,
+				E1A6D20C2DA02D3F00BF2A3B /* ViewControllerPresentationSpy */,
 			);
 			productName = CharactersPresenterTests;
 			productReference = E14104402D8DE97900A9F0A6 /* CharactersTests.xctest */;
@@ -229,8 +229,8 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				E1A81BAE2D302A0700A199A4 /* XCRemoteSwiftPackageReference "SnapKit" */,
-				E1CE54C22D997C7000418B52 /* XCRemoteSwiftPackageReference "ios-snapshot-test-case" */,
 				E1A6D1D02D99A82600BF2A3B /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */,
+				E1A6D20B2DA02D3F00BF2A3B /* XCRemoteSwiftPackageReference "ViewControllerPresentationSpy" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = E1A81B972D30299A00A199A4 /* Products */;
@@ -634,20 +634,20 @@
 				minimumVersion = 1.18.1;
 			};
 		};
+		E1A6D20B2DA02D3F00BF2A3B /* XCRemoteSwiftPackageReference "ViewControllerPresentationSpy" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/jonreid/ViewControllerPresentationSpy";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 		E1A81BAE2D302A0700A199A4 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 5.7.1;
-			};
-		};
-		E1CE54C22D997C7000418B52 /* XCRemoteSwiftPackageReference "ios-snapshot-test-case" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/uber/ios-snapshot-test-case";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 8.0.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -668,15 +668,15 @@
 			package = E1A6D1D02D99A82600BF2A3B /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */;
 			productName = SnapshotTestingCustomDump;
 		};
+		E1A6D20C2DA02D3F00BF2A3B /* ViewControllerPresentationSpy */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E1A6D20B2DA02D3F00BF2A3B /* XCRemoteSwiftPackageReference "ViewControllerPresentationSpy" */;
+			productName = ViewControllerPresentationSpy;
+		};
 		E1A81BAF2D302A0700A199A4 /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = E1A81BAE2D302A0700A199A4 /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
-		};
-		E1CE54C32D997C7000418B52 /* iOSSnapshotTestCase */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = E1CE54C22D997C7000418B52 /* XCRemoteSwiftPackageReference "ios-snapshot-test-case" */;
-			productName = iOSSnapshotTestCase;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

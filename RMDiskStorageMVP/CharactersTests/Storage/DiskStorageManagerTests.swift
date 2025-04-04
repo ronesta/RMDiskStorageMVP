@@ -9,9 +9,9 @@ import XCTest
 @testable import RMDiskStorageMVP
 
 final class DiskStorageManagerTests: XCTestCase {
-    var storageManager: DiskStorageManager!
-    var fileManager: FileManager!
-    var documentsDirectory: URL!
+    private var storageManager: DiskStorageManager!
+    private var fileManager: FileManager!
+    private var documentsDirectory: URL!
 
     override func setUpWithError() throws {
         super.setUp()

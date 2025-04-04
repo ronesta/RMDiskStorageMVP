@@ -8,8 +8,8 @@
 @testable import RMDiskStorageMVP
 
 final class MockCharactersView: CharactersViewProtocol {
-    var characters: [Character]?
-    var errorMessage: String?
+    private(set) var characters: [Character]?
+    private(set) var errorMessage: String?
 
     func updateCharacters(_ characters: [Character]) {
         self.characters = characters

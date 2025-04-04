@@ -9,7 +9,7 @@ import XCTest
 @testable import RMDiskStorageMVP
 
 final class CharactersServiceTests: XCTestCase {
-    var service: CharactersService!
+    private var service: CharactersService!
 
     override func setUp() {
         super.setUp()

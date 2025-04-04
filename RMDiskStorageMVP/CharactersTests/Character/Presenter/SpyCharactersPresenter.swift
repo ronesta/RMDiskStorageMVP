@@ -8,7 +8,7 @@
 @testable import RMDiskStorageMVP
 
 final class SpyCharactersPresenter: CharactersPresenter {
-    var getCharactersCalled = false
+    private(set) var getCharactersCalled = false
     
     override func getCharacters() {
         getCharactersCalled = true
