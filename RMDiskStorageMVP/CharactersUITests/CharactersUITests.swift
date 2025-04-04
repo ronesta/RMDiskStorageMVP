@@ -8,7 +8,7 @@
 import XCTest
 
 final class CharactersUITests: XCTestCase {
-    var app: XCUIApplication!
+    private var app: XCUIApplication!
 
     override func setUpWithError() throws {
         continueAfterFailure = false
