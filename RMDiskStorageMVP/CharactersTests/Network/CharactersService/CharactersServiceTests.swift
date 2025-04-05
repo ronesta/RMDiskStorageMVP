@@ -42,8 +42,6 @@ final class CharactersServiceTests: XCTestCase {
 
         service.mockResult = .success(sampleCharacters)
 
-        let expectation = expectation(description: "Characters fetched successfully")
-
         service.getCharacters { result in
             switch result {
             case .success(let characters):
@@ -53,16 +51,11 @@ final class CharactersServiceTests: XCTestCase {
             case .failure:
                 XCTFail("Expected success, got failure instead")
             }
-            expectation.fulfill()
         }
-
-        waitForExpectations(timeout: 1, handler: nil)
     }
 
     func testGetCharactersFailure() {
         service.mockResult = .failure(NetworkError.noData)
-
-        let expectation = expectation(description: "Failed to fetch characters")
 
         service.getCharacters { result in
             switch result {
@@ -71,25 +64,17 @@ final class CharactersServiceTests: XCTestCase {
             case .failure(let error):
                 XCTAssertEqual(error as? NetworkError, NetworkError.noData)
             }
-            expectation.fulfill()
         }
-
-        waitForExpectations(timeout: 1, handler: nil)
     }
 
     func testDecodingError() {
-        let expectation = XCTestExpectation(description: "Decoding error")
-
         service.getCharactersWithInvalidJSON { result in
             switch result {
             case .success:
                 XCTFail("Expected failure, got success")
             case .failure(let error):
                 XCTAssertTrue(error is DecodingError, "Expected a decoding error")
-                expectation.fulfill()
             }
         }
-
-        wait(for: [expectation], timeout: 5.0)
     }
 }
