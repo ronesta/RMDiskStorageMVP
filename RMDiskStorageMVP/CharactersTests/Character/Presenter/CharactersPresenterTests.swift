@@ -11,13 +11,13 @@ import XCTest
 final class CharactersPresenterTests: XCTestCase {
     private var presenter: CharactersPresenter!
     private var mockView: MockCharactersView!
-    private var mockService: MockCharactersService!
+    private var mockService: MockCharactersServiceForPresenter!
     private var mockStorageManager: MockStorageManager!
 
     override func setUp() {
         super.setUp()
         mockView = MockCharactersView()
-        mockService = MockCharactersService()
+        mockService = MockCharactersServiceForPresenter()
         mockStorageManager = MockStorageManager()
         presenter = CharactersPresenter(charactersService: mockService,
                                         storageManager: mockStorageManager

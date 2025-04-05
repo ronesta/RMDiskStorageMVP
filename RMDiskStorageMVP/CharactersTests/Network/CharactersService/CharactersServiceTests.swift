@@ -9,11 +9,11 @@ import XCTest
 @testable import RMDiskStorageMVP
 
 final class CharactersServiceTests: XCTestCase {
-    private var service: CharactersService!
+    private var service: MockCharactersService!
 
     override func setUp() {
         super.setUp()
-        service = CharactersService()
+        service = MockCharactersService()
     }
 
     override func tearDown() {
@@ -21,45 +21,66 @@ final class CharactersServiceTests: XCTestCase {
         super.tearDown()
     }
 
-    func testGetCharactersValidURL() {
-        let expectation = XCTestExpectation(description: "Valid URL")
+    func testGetCharactersSuccess() {
+        let sampleCharacters = [
+            Character(name: "Rick Sanchez",
+                      status: "Alive",
+                      species: "Human",
+                      gender: "Male",
+                      location: Location(name: "Earth (C-137)"),
+                      image: "url_to_image"
+                     ),
+            Character(name: "Morty Smith",
+                      status: "Alive",
+                      species: "Human",
+                      gender: "Male",
+                      location: Location(name: "Earth (C-137)"),
+                      image: "url_to_image"
+                     )
+
+        ]
+
+        service.mockResult = .success(sampleCharacters)
+
+        let expectation = expectation(description: "Characters fetched successfully")
 
         service.getCharacters { result in
             switch result {
             case .success(let characters):
-                XCTAssertNotNil(characters)
-                XCTAssertGreaterThan(characters.count, 0)
-                expectation.fulfill()
-            case .failure(let error):
-                XCTFail("Expected success, but got error: \(error.localizedDescription)")
+                XCTAssertEqual(characters.count, 2)
+                XCTAssertEqual(characters[0].name, "Rick Sanchez")
+                XCTAssertEqual(characters[1].name, "Morty Smith")
+            case .failure:
+                XCTFail("Expected success, got failure instead")
             }
+            expectation.fulfill()
         }
 
-        wait(for: [expectation], timeout: 5.0)
+        waitForExpectations(timeout: 1, handler: nil)
     }
 
-    func testGetCharactersInvalidURL() {
-        let service = CharactersService(urlString: "invalid_url")
-        let expectation = expectation(description: "Invalid URL error")
+    func testGetCharactersFailure() {
+        service.mockResult = .failure(NetworkError.noData)
+
+        let expectation = expectation(description: "Failed to fetch characters")
 
         service.getCharacters { result in
             switch result {
-            case .success(let characters):
-                XCTFail("Expected failure, but got success with characters: \(characters)")
+            case .success:
+                XCTFail("Expected failure, got success instead")
             case .failure(let error):
-                XCTAssertEqual(error as? NetworkError, NetworkError.invalidURL)
-                expectation.fulfill()
+                XCTAssertEqual(error as? NetworkError, NetworkError.noData)
             }
+            expectation.fulfill()
         }
 
-        wait(for: [expectation], timeout: 5.0)
+        waitForExpectations(timeout: 1, handler: nil)
     }
 
     func testDecodingError() {
-        let mockService = MockCharactersServiceWithInvalidJSON()
         let expectation = XCTestExpectation(description: "Decoding error")
 
-        mockService.getCharacters { result in
+        service.getCharactersWithInvalidJSON { result in
             switch result {
             case .success:
                 XCTFail("Expected failure, got success")

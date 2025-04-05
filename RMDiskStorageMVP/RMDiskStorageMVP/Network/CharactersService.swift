@@ -11,11 +11,7 @@ import UIKit
 final class CharactersService: CharactersServiceProtocol {
     private var counter = 1
 
-    private let urlString: String
-
-    init(urlString: String = "https://rickandmortyapi.com/api/character") {
-        self.urlString = urlString
-    }
+    private let urlString = "https://rickandmortyapi.com/api/character"
 
     func getCharacters(completion: @escaping (Result<[Character], Error>) -> Void) {
         guard let url = URL(string: urlString),
