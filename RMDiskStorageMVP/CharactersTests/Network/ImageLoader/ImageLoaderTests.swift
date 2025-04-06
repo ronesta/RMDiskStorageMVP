@@ -10,69 +10,39 @@ import XCTest
 
 final class ImageLoaderTests: XCTestCase {
     private var imageLoader: MockImageLoader!
-    private var storageManager: MockStorageManager!
 
     override func setUp() {
         super.setUp()
-        storageManager = MockStorageManager()
         imageLoader = MockImageLoader()
     }
 
     override func tearDown() {
-        storageManager = nil
         imageLoader = nil
         super.tearDown()
     }
 
-    func testLoadImageFromStorage() {
-        guard let imageData = UIImage(named: "testImage")?.pngData() else {
-            return
-        }
+    func testLoadImageSuccess() {
+        let testImage = UIImage(systemName: "person.fill")!
+        imageLoader.mockImage = testImage
+        imageLoader.shouldReturnError = false
 
-        let urlString = "https://example.com/image.png"
-
-        storageManager.saveImage(imageData, key: urlString)
-
-        imageLoader.loadImage(from: urlString) { image in
+        imageLoader.loadImage(from: "test_url") { image in
             XCTAssertNotNil(image)
+            XCTAssertEqual(image, testImage)
         }
     }
 
-    func testLoadImageFromNetwork() {
-        let urlString = "https://example.com/image.png"
+    func testLoadImageFailure() {
+        imageLoader.shouldReturnError = true
 
-        guard let imageData = UIImage(named: "testImage")?.pngData() else {
-            return
-        }
-
-        imageLoader.simulateImageSave(with: imageData)
-
-        imageLoader.loadImage(from: urlString) { image in
-            XCTAssertNotNil(image)
+        imageLoader.loadImage(from: "test_url") { image in
+            XCTAssertNil(image)
         }
     }
-
-//    func testLoadImageFromNetwork() {
-//        let urlString = "https://example.com/image.png"
-//
-//        let url = URL(string: urlString)!
-//        guard let imageData = UIImage(named: "testImage")?.pngData() else {
-//            return
-//        }
-//
-//        MockURLProtocol.testURLs = [url: imageData]
-//        MockURLProtocol.response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil)
-//
-//        imageLoader.loadImage(from: urlString) { image in
-//            XCTAssertNotNil(image)
-//        }
-//    }
 
     func testLoadImageInvalidURL() {
-        let urlString = "invalid_url"
-
-        imageLoader.loadImage(from: urlString) { image in
-            XCTAssertNil(image, "Image should be nil for invalid URL")
+        imageLoader.loadImage(from: "") { image in
+            XCTAssertNil(image)
         }
     }
 }

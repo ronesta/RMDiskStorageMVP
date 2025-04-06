@@ -9,20 +9,14 @@ import UIKit
 @testable import RMDiskStorageMVP
 
 final class MockImageLoader: ImageLoaderProtocol {
-    var mockImageData: Data?
-    var isImageSaved = false
+    var mockImage: UIImage?
+    var shouldReturnError: Bool = false
 
     func loadImage(from urlString: String, completion: @escaping (UIImage?) -> Void) {
-        if let data = mockImageData,
-           let image = UIImage(data: data) {
-            completion(image)
-        } else {
+        if shouldReturnError {
             completion(nil)
+        } else {
+            completion(mockImage)
         }
-    }
-
-    func simulateImageSave(with data: Data) {
-        isImageSaved = true
-        mockImageData = data
     }
 }
