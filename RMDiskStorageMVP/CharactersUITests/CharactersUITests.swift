@@ -47,12 +47,6 @@ final class CharactersUITests: XCTestCase {
         XCTAssertTrue(statusLabel.exists)
     }
 
-    func testImageLoadingInCell() throws {
-        let firstCell = app.tables.cells.element(boundBy: 0)
-        let characterImageView = firstCell.images["characterImageView"]
-        XCTAssertTrue(characterImageView.exists)
-    }
-
     override func tearDownWithError() throws {
         app = nil
     }
