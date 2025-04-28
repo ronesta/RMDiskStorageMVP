@@ -82,7 +82,7 @@ final class CharactersServiceTests: XCTestCase {
     }
 
     func testGetCharactersFailure_invalidData() {
-        mockURLSession.data = Data([0x00, 0x01, 0x02])
+        mockURLSession.data = Data()
         mockURLSession.error = nil
 
         service.getCharacters { result in
