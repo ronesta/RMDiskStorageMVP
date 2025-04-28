@@ -12,16 +12,24 @@ final class CharactersService: CharactersServiceProtocol {
     private var counter = 1
 
     private let urlString = "https://rickandmortyapi.com/api/character"
+    private let urlSession: URLSessionProtocol
+    private let dispatchQueue: DispatchQueueProtocol
+
+    init(urlSession: URLSessionProtocol = URLSession.shared,
+         dispatchQueue: DispatchQueueProtocol = DispatchQueue.main
+    ) {
+        self.urlSession = urlSession
+        self.dispatchQueue = dispatchQueue
+    }
 
     func getCharacters(completion: @escaping (Result<[Character], Error>) -> Void) {
-        guard let url = URL(string: urlString),
-        UIApplication.shared.canOpenURL(url) else {
+        guard let url = URL(string: urlString) else {
             print("Invalid URL")
             completion(.failure(NetworkError.invalidURL))
             return
         }
 
-        URLSession.shared.dataTask(with: url) { data, _, error in
+        urlSession.dataTask(with: url) { data, _, error in
             if let error {
                 print("Error: \(error.localizedDescription)")
                 DispatchQueue.main.async {
@@ -32,7 +40,7 @@ final class CharactersService: CharactersServiceProtocol {
 
             guard let data else {
                 print("No data")
-                DispatchQueue.main.async {
+                self.dispatchQueue.async {
                     completion(.failure(NetworkError.noData))
                 }
                 return
@@ -40,14 +48,14 @@ final class CharactersService: CharactersServiceProtocol {
 
             do {
                 let character = try JSONDecoder().decode(PostCharacters.self, from: data)
-                DispatchQueue.main.async {
+                self.dispatchQueue.async {
                     completion(.success(character.results))
                     print("Load data \(self.counter)")
                     self.counter += 1
                 }
             } catch {
                 print("Decoding error: \(error.localizedDescription)")
-                DispatchQueue.main.async {
+                self.dispatchQueue.async {
                     completion(.failure(error))
                 }
             }

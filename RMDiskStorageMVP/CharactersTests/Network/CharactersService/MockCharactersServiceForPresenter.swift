@@ -8,7 +8,7 @@
 import Foundation
 @testable import RMDiskStorageMVP
 
-final class MockCharactersServiceForPresenter: CharactersServiceProtocol {
+final class MockCharactersService: CharactersServiceProtocol {
     var shouldReturnError = false
     var characters = [Character]()
 

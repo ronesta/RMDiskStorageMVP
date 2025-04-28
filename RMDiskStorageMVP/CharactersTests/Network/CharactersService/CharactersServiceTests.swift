@@ -9,20 +9,29 @@ import XCTest
 @testable import RMDiskStorageMVP
 
 final class CharactersServiceTests: XCTestCase {
-    private var service: MockCharactersService!
+    private var service: CharactersService!
+    private var mockURLSession: MockURLSession!
+    private var mockDispatchQueue: MockDispatchQueue!
 
     override func setUp() {
         super.setUp()
-        service = MockCharactersService()
+        mockURLSession = MockURLSession()
+        mockDispatchQueue = MockDispatchQueue()
+        service = CharactersService(
+            urlSession: mockURLSession,
+            dispatchQueue: mockDispatchQueue
+        )
     }
 
     override func tearDown() {
         service = nil
+        mockURLSession = nil
+        mockDispatchQueue = nil
         super.tearDown()
     }
 
     func testGetCharactersSuccess() {
-        let sampleCharacters = [
+        let characters = [
             Character(name: "Rick Sanchez",
                       status: "Alive",
                       species: "Human",
@@ -40,7 +49,11 @@ final class CharactersServiceTests: XCTestCase {
 
         ]
 
-        service.mockResult = .success(sampleCharacters)
+        let postCharacters = PostCharacters(results: characters)
+        let data = try! JSONEncoder().encode(postCharacters)
+
+        mockURLSession.data = data
+        mockURLSession.error = nil
 
         service.getCharacters { result in
             switch result {
@@ -54,27 +67,49 @@ final class CharactersServiceTests: XCTestCase {
         }
     }
 
-    func testGetCharactersFailure() {
-        service.mockResult = .failure(NetworkError.noData)
+    func testGetCharactersFailure_noData() {
+        mockURLSession.data = nil
+        mockURLSession.error = nil
 
         service.getCharacters { result in
             switch result {
             case .success:
-                XCTFail("Expected failure, got success instead")
+                XCTFail("Should fail with no data")
             case .failure(let error):
                 XCTAssertEqual(error as? NetworkError, NetworkError.noData)
             }
         }
     }
 
-    func testDecodingError() {
-        service.getCharactersWithInvalidJSON { result in
+    func testGetCharactersFailure_invalidData() {
+        mockURLSession.data = Data([0x00, 0x01, 0x02])
+        mockURLSession.error = nil
+
+        service.getCharacters { result in
             switch result {
             case .success:
-                XCTFail("Expected failure, got success")
+                XCTFail("Should fail")
             case .failure(let error):
-                XCTAssertTrue(error is DecodingError, "Expected a decoding error")
+                XCTAssertTrue(error is DecodingError)
             }
         }
+    }
+
+    func testGetCharactersFailure_errorFromSession() {
+        mockURLSession.data = nil
+        mockURLSession.error = NSError(domain: "", code: -1, userInfo: nil)
+
+        let expectation = expectation(description: "Failure completion called")
+
+        service.getCharacters { result in
+            switch result {
+            case .success:
+                XCTFail("Should fail with error from session")
+            case .failure(let error):
+                XCTAssertNotNil(error)
+            }
+            expectation.fulfill()
+        }
+        waitForExpectations(timeout: 1)
     }
 }

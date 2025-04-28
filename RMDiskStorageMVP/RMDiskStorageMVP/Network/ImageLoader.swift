@@ -12,9 +12,16 @@ final class ImageLoader: ImageLoaderProtocol {
     private var counter = 1
 
     private let storageManager: StorageManagerProtocol
+    private let urlSession: URLSessionProtocol
+    private let dispatchQueue: DispatchQueueProtocol
 
-    init(storageManager: StorageManagerProtocol) {
+    init(storageManager: StorageManagerProtocol,
+         urlSession: URLSessionProtocol = URLSession.shared,
+         dispatchQueue: DispatchQueueProtocol = DispatchQueue.main
+    ) {
         self.storageManager = storageManager
+        self.urlSession = urlSession
+        self.dispatchQueue = dispatchQueue
     }
 
     func loadImage(from urlString: String, completion: @escaping (UIImage?) -> Void) {
@@ -31,10 +38,10 @@ final class ImageLoader: ImageLoaderProtocol {
             return
         }
 
-        URLSession.shared.dataTask(with: url) { data, _, error in
+        urlSession.dataTask(with: url) { data, _, error in
             if let error {
                 print("Error: \(error.localizedDescription)")
-                DispatchQueue.main.async {
+                self.dispatchQueue.async {
                     completion(nil)
                 }
                 return
@@ -43,13 +50,13 @@ final class ImageLoader: ImageLoaderProtocol {
             if let data,
                let image = UIImage(data: data) {
                 self.storageManager.saveImage(data, key: key)
-                DispatchQueue.main.async {
+                self.dispatchQueue.async {
                     completion(image)
                     print("Load image \(self.counter)")
                     self.counter += 1
                 }
             } else {
-                DispatchQueue.main.async {
+                self.dispatchQueue.async {
                     completion(nil)
                 }
             }
