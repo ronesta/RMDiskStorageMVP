@@ -64,8 +64,10 @@ final class CharactersPresenterTests: XCTestCase {
 
         presenter.viewDidLoad()
 
-        XCTAssertEqual(mockView.characters, savedCharacters)
-        XCTAssertNil(mockView.errorMessage)
+        XCTAssertEqual(mockView.updateCharactersCallCount, 1)
+        XCTAssertEqual(mockView.updateCharactersArgsCharacters.first, savedCharacters)
+        XCTAssertEqual(mockView.showErrorCallCount, 0)
+
     }
 
     func testViewDidLoadWhenCharactersAreNotSaved() {
@@ -91,8 +93,9 @@ final class CharactersPresenterTests: XCTestCase {
 
         presenter.viewDidLoad()
 
-        XCTAssertEqual(mockView.characters, fetchedCharacters)
-        XCTAssertNil(mockView.errorMessage)
+        XCTAssertEqual(mockView.updateCharactersCallCount, 1)
+        XCTAssertEqual(mockView.updateCharactersArgsCharacters.first, fetchedCharacters)
+        XCTAssertEqual(mockView.showErrorCallCount, 0)
         XCTAssertEqual(mockStorageManager.characters, fetchedCharacters)
     }
 
@@ -101,7 +104,7 @@ final class CharactersPresenterTests: XCTestCase {
 
         presenter.viewDidLoad()
 
-        XCTAssertNotNil(mockView.errorMessage)
-        XCTAssertNil(mockView.characters)
+        XCTAssertEqual(mockView.showErrorCallCount, 1)
+        XCTAssertEqual(mockView.updateCharactersCallCount, 0)
     }
 }

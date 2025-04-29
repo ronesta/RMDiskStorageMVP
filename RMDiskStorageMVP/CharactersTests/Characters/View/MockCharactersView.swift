@@ -8,14 +8,19 @@
 @testable import RMDiskStorageMVP
 
 final class MockCharactersView: CharactersViewProtocol {
-    private(set) var characters: [Character]?
-    private(set) var errorMessage: String?
+    private(set) var updateCharactersCallCount = 0
+    private(set) var updateCharactersArgsCharacters = [[Character]]()
+
+    private(set) var showErrorCallCount = 0
+    private(set) var showErrorArgsMessages = String()
 
     func updateCharacters(_ characters: [Character]) {
-        self.characters = characters
+        updateCharactersCallCount += 1
+        updateCharactersArgsCharacters.append(characters)
     }
 
     func showError(_ message: String) {
-        errorMessage = message
+        showErrorCallCount += 1
+        showErrorArgsMessages.append(message)
     }
 }
