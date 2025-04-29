@@ -33,15 +33,6 @@ final class CharactersPresenterTests: XCTestCase {
         super.tearDown()
     }
 
-    func testViewDidLoadCallsGetCharacters() {
-        let spyPresenter = SpyCharactersPresenter(charactersService: mockService, storageManager: mockStorageManager)
-
-        spyPresenter.view = mockView
-        spyPresenter.viewDidLoad()
-
-        XCTAssertTrue(spyPresenter.getCharactersCalled)
-    }
-
     func testViewDidLoadWhenCharactersAreSaved() {
         let savedCharacters = [
             Character(name: "Summer Smith",
@@ -89,10 +80,11 @@ final class CharactersPresenterTests: XCTestCase {
 
         ]
 
-        mockService.characters = fetchedCharacters
+        mockService.stubbedCharactersResult = .success(fetchedCharacters)
 
         presenter.viewDidLoad()
 
+        XCTAssertEqual(mockService.getCharactersCallCount, 1)
         XCTAssertEqual(mockView.updateCharactersCallCount, 1)
         XCTAssertEqual(mockView.updateCharactersArgsCharacters.first, fetchedCharacters)
         XCTAssertEqual(mockView.showErrorCallCount, 0)
@@ -100,10 +92,12 @@ final class CharactersPresenterTests: XCTestCase {
     }
 
     func testGetCharactersFailureShowsError() {
-        mockService.shouldReturnError = true
+        let expectedError = NSError(domain: "Test", code: 0, userInfo: nil)
 
+        mockService.stubbedCharactersResult = .failure(expectedError)
         presenter.viewDidLoad()
 
+        XCTAssertEqual(mockService.getCharactersCallCount, 1)
         XCTAssertEqual(mockView.showErrorCallCount, 1)
         XCTAssertEqual(mockView.updateCharactersCallCount, 0)
     }

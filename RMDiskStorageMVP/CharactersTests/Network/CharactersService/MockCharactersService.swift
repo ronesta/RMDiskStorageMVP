@@ -9,15 +9,17 @@ import Foundation
 @testable import RMDiskStorageMVP
 
 final class MockCharactersService: CharactersServiceProtocol {
-    var shouldReturnError = false
-    var characters = [Character]()
+    private(set) var getCharactersCallCount = 0
+    private(set) var getCharactersCompletions = [(Result<[Character], Error>) -> Void]()
+
+    var stubbedCharactersResult: Result<[Character], Error>?
 
     func getCharacters(completion: @escaping (Result<[Character], Error>) -> Void) {
-        if shouldReturnError {
-            let error = NSError(domain: "Test", code: 0, userInfo: nil)
-            completion(.failure(error))
-        } else {
-            completion(.success(characters))
+        getCharactersCallCount += 1
+        getCharactersCompletions.append(completion)
+
+        if let result = stubbedCharactersResult {
+            completion(result)
         }
     }
 }

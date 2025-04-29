@@ -7,7 +7,7 @@
 
 import Foundation
 
-class CharactersPresenter: CharactersPresenterProtocol {
+final class CharactersPresenter: CharactersPresenterProtocol {
     weak var view: CharactersViewProtocol?
 
     private let charactersService: CharactersServiceProtocol
@@ -26,7 +26,7 @@ class CharactersPresenter: CharactersPresenterProtocol {
         getCharacters()
     }
 
-    func getCharacters() {
+    private func getCharacters() {
         if let savedCharacters = storageManager.loadCharacters() {
             characters = savedCharacters
             view?.updateCharacters(characters)
