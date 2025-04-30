@@ -9,5 +9,15 @@ import Foundation
 @testable import RMDiskStorageMVP
 
 final class MockURLSessionDataTask: URLSessionDataTaskProtocol {
-    func resume() {}
+    private let completion: (() -> Void)?
+    private(set) var resumeCallCount = 0
+
+    init(completion: (() -> Void)?) {
+        self.completion = completion
+    }
+
+    func resume() {
+        resumeCallCount += 1
+        completion?()
+    }
 }
