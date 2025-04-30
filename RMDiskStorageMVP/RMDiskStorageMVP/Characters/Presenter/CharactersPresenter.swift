@@ -7,8 +7,8 @@
 
 import Foundation
 
-final class CharactersPresenter: CharactersPresenterProtocol {
-    weak var view: CharactersViewProtocol?
+final class CharactersPresenter: CharactersViewOutputProtocol {
+    weak var view: CharactersViewInputProtocol?
 
     private let charactersService: CharactersServiceProtocol
     private let storageManager: StorageManagerProtocol

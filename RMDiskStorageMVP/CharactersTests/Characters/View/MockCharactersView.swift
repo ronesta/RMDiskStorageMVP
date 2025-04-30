@@ -7,7 +7,7 @@
 
 @testable import RMDiskStorageMVP
 
-final class MockCharactersView: CharactersViewProtocol {
+final class MockCharactersView: CharactersViewInputProtocol {
     private(set) var updateCharactersCallCount = 0
     private(set) var updateCharactersArgsCharacters = [[Character]]()
 

@@ -7,6 +7,6 @@
 
 import Foundation
 
-protocol CharactersPresenterProtocol: AnyObject {
+protocol CharactersViewOutputProtocol: AnyObject {
     func viewDidLoad()
 }
