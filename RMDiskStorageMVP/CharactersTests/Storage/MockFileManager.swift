@@ -25,7 +25,10 @@ final class MockFileManager: FileManager {
     }
 
     override func createFile(atPath path: String, contents data: Data?, attributes attr: [FileAttributeKey : Any]? = nil) -> Bool {
-        if shouldFail { return false }
+        if shouldFail || path.contains("invalid") {
+            return false
+        }
+
         storage[path] = data
         return true
     }

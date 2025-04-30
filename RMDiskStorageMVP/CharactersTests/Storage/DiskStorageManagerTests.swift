@@ -86,10 +86,13 @@ final class DiskStorageManagerTests: XCTestCase {
     }
 
     func testSaveImageHandlesErrors() {
+        let imageData = Data()
         let invalidKey = "/invalid/path/imageKey"
-        let imageData = "TestImage".data(using: .utf8)!
 
         storageManager.saveImage(imageData, key: invalidKey)
+
+        let loadedData = storageManager.loadImage(key: invalidKey)
+        XCTAssertNil(loadedData)
     }
 
     func testSaveCharactersHandlesErrors() {
