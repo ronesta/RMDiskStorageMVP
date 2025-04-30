@@ -8,7 +8,11 @@
 import Foundation
 
 final class DiskStorageManager: StorageManagerProtocol {
-    private let fileManager = FileManager.default
+    private let fileManager: FileManager
+
+    init(fileManager: FileManager = .default) {
+        self.fileManager = fileManager
+    }
 
     private var documentsDirectory: URL {
         return fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
@@ -16,9 +20,12 @@ final class DiskStorageManager: StorageManagerProtocol {
 
     func saveCharacters(_ characters: [Character]) {
         let fileURL = documentsDirectory.appendingPathComponent("characters.json")
+
         do {
             let data = try JSONEncoder().encode(characters)
-            try data.write(to: fileURL)
+            let path = fileURL.path
+
+            fileManager.createFile(atPath: path, contents: data, attributes: nil)
         } catch {
             print("Failed to save characters: \(error.localizedDescription)")
         }
@@ -26,38 +33,30 @@ final class DiskStorageManager: StorageManagerProtocol {
 
     func loadCharacters() -> [Character]? {
         let fileURL = documentsDirectory.appendingPathComponent("characters.json")
+        let path = fileURL.path
 
-        guard let data = try? Data(contentsOf: fileURL),
-              let characters = try? JSONDecoder().decode([Character].self, from: data) else {
+        guard let data = fileManager.contents(atPath: path) else {
             return nil
         }
 
-        return characters
+        return try? JSONDecoder().decode([Character].self, from: data)
     }
 
     func saveImage(_ data: Data, key: String) {
         let fileURL = documentsDirectory.appendingPathComponent("\(key)")
+        let path = fileURL.path
 
-        do {
-            try data.write(to: fileURL)
-        } catch {
-            print("Failed to save image: \(error.localizedDescription)")
-        }
+        fileManager.createFile(atPath: path, contents: data, attributes: nil)
     }
 
     func loadImage(key: String) -> Data? {
         let fileURL = documentsDirectory.appendingPathComponent("\(key)")
+        let path = fileURL.path
 
-        guard fileManager.fileExists(atPath: fileURL.path) else {
+        guard fileManager.fileExists(atPath: path) else {
             return nil
         }
 
-        do {
-            let data = try Data(contentsOf: fileURL)
-            return data
-        } catch {
-            print("Error loading image: \(error.localizedDescription)")
-            return nil
-        }
+        return fileManager.contents(atPath: path)
     }
 }

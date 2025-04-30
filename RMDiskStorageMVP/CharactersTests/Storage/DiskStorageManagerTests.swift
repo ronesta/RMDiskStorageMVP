@@ -10,23 +10,24 @@ import XCTest
 
 final class DiskStorageManagerTests: XCTestCase {
     private var storageManager: DiskStorageManager!
-    private var fileManager: FileManager!
+    private var mockFileManager: MockFileManager!
     private var documentsDirectory: URL!
 
     override func setUpWithError() throws {
         super.setUp()
-        storageManager = DiskStorageManager()
-        fileManager = FileManager.default
-        documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
+        mockFileManager = MockFileManager()
+        storageManager = DiskStorageManager(fileManager: mockFileManager)
+        documentsDirectory = mockFileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
         let fileURL = documentsDirectory.appendingPathComponent("characters.json")
-        try? fileManager.removeItem(at: fileURL)
+        try? mockFileManager.removeItem(at: fileURL)
 
     }
 
     override func tearDownWithError() throws {
-        let contents = try fileManager.contentsOfDirectory(at: documentsDirectory, includingPropertiesForKeys: nil)
+        let contents = mockFileManager.storage.keys
+
         for file in contents {
-            try? fileManager.removeItem(at: file)
+            try? mockFileManager.removeItem(at: URL(fileURLWithPath: file))
         }
 
         storageManager = nil
