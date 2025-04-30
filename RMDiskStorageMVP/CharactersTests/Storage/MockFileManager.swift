@@ -9,8 +9,8 @@ import XCTest
 @testable import RMDiskStorageMVP
 
 final class MockFileManager: FileManager {
-    var storage = [String: Data]()
-    var shouldFail: Bool = false
+    private(set) var storage = [String: Data]()
+    private(set) var shouldFail: Bool = false
 
     override func fileExists(atPath path: String) -> Bool {
         return storage[path] != nil
