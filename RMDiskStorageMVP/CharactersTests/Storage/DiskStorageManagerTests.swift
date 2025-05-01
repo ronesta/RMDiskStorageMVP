@@ -114,13 +114,20 @@ final class DiskStorageManagerTests: XCTestCase {
 
     func testGivenInvalidCharactersData_WhenSaveCharacters_ThenThrowsError() {
         // Given
-        let testCharacters = [["invalidKey": "value"]]
+        let mockJSON = """
+        {
+            "results": [
+                { "invalidKey": "value" }
+            ]
+        }
+        """
+
+        let invalidData = mockJSON.data(using: .utf8)!
         let fileURL = documentsDirectory.appendingPathComponent("invalidPath/characters.json")
 
         // When
         do {
-            let data = try JSONEncoder().encode(testCharacters)
-            try data.write(to: fileURL)
+            try invalidData.write(to: fileURL)
             XCTFail("Expected writing to invalid path to fail")
         } catch {
             // Then

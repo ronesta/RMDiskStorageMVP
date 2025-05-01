@@ -32,28 +32,30 @@ final class CharactersServiceTests: XCTestCase {
 
     func testGivenValidResponse_WhenGetCharacters_ThenReturnsCharactersArray() {
         // Given
-        let characters = [
-            Character(
-                name: "Rick Sanchez",
-                status: "Alive",
-                species: "Human",
-                gender: "Male",
-                location: Location(name: "Earth (C-137)"),
-                image: "url_to_image"
-            ),
-            Character(
-                name: "Morty Smith",
-                status: "Alive",
-                species: "Human",
-                gender: "Male",
-                location: Location(name: "Earth (C-137)"),
-                image: "url_to_image"
-            )
-        ]
-        
-        let postCharacters = PostCharacters(results: characters)
-        let data = try! JSONEncoder().encode(postCharacters)
-        mockURLSession.data = data
+        let mockJSON = """
+        {
+            "results": [
+                {
+                    "name": "Rick Sanchez",
+                    "status": "Alive",
+                    "species": "Human",
+                    "gender": "Male",
+                    "location": { "name": "Earth (C-137)" },
+                    "image": "url_to_image"
+                },
+                {
+                    "name": "Morty Smith",
+                    "status": "Alive",
+                    "species": "Human",
+                    "gender": "Male",
+                    "location": { "name": "Earth (C-137)" },
+                    "image": "url_to_image"
+                }
+            ]
+        }
+        """
+
+        mockURLSession.data = mockJSON.data(using: .utf8)
         mockURLSession.error = nil
 
         // When
