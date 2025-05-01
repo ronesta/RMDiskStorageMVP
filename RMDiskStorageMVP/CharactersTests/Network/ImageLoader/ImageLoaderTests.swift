@@ -34,57 +34,68 @@ final class ImageLoaderTests: XCTestCase {
         super.tearDown()
     }
 
-    func test_loadImage_ReturnsImageFromStorage() {
+    func testGivenImageInStorage_WhenLoadImage_ThenReturnsImageFromStorage() {
+        // Given
         let urlString = "https://example.com/test.png"
         let testImage = UIImage(systemName: "star")!
         let imageData = testImage.pngData()!
         let key = urlString.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? urlString
-
         mockStorageManager.saveImage(imageData, key: key)
 
+        // When
         imageLoader.loadImage(from: urlString) { image in
+            // Then
             XCTAssertNotNil(image)
         }
     }
 
-    func test_loadImage_LoadsImageFromNetworkAndCachesIt() {
+    func testGivenImageNotInStorage_WhenLoadImage_ThenLoadsImageFromNetworkAndCachesIt() {
+        // Given
         let urlString = "https://example.com/test.png"
         let testImage = UIImage(systemName: "star")!
         let imageData = testImage.pngData()!
         let key = urlString.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? urlString
-
         mockURLSession.data = imageData
 
+        // When
         imageLoader.loadImage(from: urlString) { image in
+            // Then
             XCTAssertNotNil(image)
             XCTAssertEqual(self.mockStorageManager.images[key], imageData)
         }
     }
 
-    func test_loadImage_invalidURL_ReturnsNil() {
+    func testGivenInvalidURL_WhenLoadImage_ThenReturnsNil() {
+        // Given
         let urlString = "not-a url"
 
+        // When
         imageLoader.loadImage(from: urlString) { image in
+            // Then
             XCTAssertNil(image)
         }
     }
 
-    func test_loadImage_NetworkError_ReturnsNil() {
+    func testGivenNetworkError_WhenLoadImage_ThenReturnsNil() {
+        // Given
         let urlString = "http://example.com/test3.png"
-
         mockURLSession.error = NSError(domain: "test", code: 1)
 
+        // When
         imageLoader.loadImage(from: urlString) { image in
+            // Then
             XCTAssertNil(image)
         }
     }
 
-    func test_loadImage_invalidData_ReturnsNil() {
+    func testGivenInvalidImageData_WhenLoadImage_ThenReturnsNil() {
+        // Given
         let urlString = "http://example.com/test4.png"
-
         mockURLSession.data = Data()
 
+        // When
         imageLoader.loadImage(from: urlString) { image in
+            // Then
             XCTAssertNil(image)
         }
     }

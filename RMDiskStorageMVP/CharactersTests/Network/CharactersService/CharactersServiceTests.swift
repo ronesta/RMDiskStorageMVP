@@ -30,32 +30,35 @@ final class CharactersServiceTests: XCTestCase {
         super.tearDown()
     }
 
-    func testGetCharactersSuccess() {
+    func testGivenValidResponse_WhenGetCharacters_ThenReturnsCharactersArray() {
+        // Given
         let characters = [
-            Character(name: "Rick Sanchez",
-                      status: "Alive",
-                      species: "Human",
-                      gender: "Male",
-                      location: Location(name: "Earth (C-137)"),
-                      image: "url_to_image"
-                     ),
-            Character(name: "Morty Smith",
-                      status: "Alive",
-                      species: "Human",
-                      gender: "Male",
-                      location: Location(name: "Earth (C-137)"),
-                      image: "url_to_image"
-                     )
-
+            Character(
+                name: "Rick Sanchez",
+                status: "Alive",
+                species: "Human",
+                gender: "Male",
+                location: Location(name: "Earth (C-137)"),
+                image: "url_to_image"
+            ),
+            Character(
+                name: "Morty Smith",
+                status: "Alive",
+                species: "Human",
+                gender: "Male",
+                location: Location(name: "Earth (C-137)"),
+                image: "url_to_image"
+            )
         ]
-
+        
         let postCharacters = PostCharacters(results: characters)
         let data = try! JSONEncoder().encode(postCharacters)
-
         mockURLSession.data = data
         mockURLSession.error = nil
 
+        // When
         service.getCharacters { result in
+            // Then
             switch result {
             case .success(let characters):
                 XCTAssertEqual(characters.count, 2)
@@ -67,11 +70,14 @@ final class CharactersServiceTests: XCTestCase {
         }
     }
 
-    func testGetCharactersFailure_noData() {
+    func testGivenNoData_WhenGetCharacters_ThenReturnsNoDataError() {
+        // Given
         mockURLSession.data = nil
         mockURLSession.error = nil
 
+        // When
         service.getCharacters { result in
+            // Then
             switch result {
             case .success:
                 XCTFail("Should fail with no data")
@@ -81,11 +87,14 @@ final class CharactersServiceTests: XCTestCase {
         }
     }
 
-    func testGetCharactersFailure_invalidData() {
+    func testGivenInvalidData_WhenGetCharacters_ThenReturnsDecodingError() {
+        // Given
         mockURLSession.data = Data()
         mockURLSession.error = nil
 
+        // When
         service.getCharacters { result in
+            // Then
             switch result {
             case .success:
                 XCTFail("Should fail")
@@ -95,13 +104,15 @@ final class CharactersServiceTests: XCTestCase {
         }
     }
 
-    func testGetCharactersFailure_errorFromSession() {
+    func testGivenSessionError_WhenGetCharacters_ThenReturnsError() {
+        // Given
         mockURLSession.data = nil
         mockURLSession.error = NSError(domain: "", code: -1, userInfo: nil)
-
         let expectation = expectation(description: "Failure completion called")
 
+        // When
         service.getCharacters { result in
+            // Then
             switch result {
             case .success:
                 XCTFail("Should fail with error from session")

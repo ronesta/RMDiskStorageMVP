@@ -34,7 +34,8 @@ final class DiskStorageManagerTests: XCTestCase {
         super.tearDown()
     }
 
-    func testSaveAndLoadCharacters() throws {
+    func testGivenCharacters_WhenSaveCharacters_ThenReturnsSameCharacters() throws {
+        // Given
         let testCharacters = [
             Character(name: "Rick Sanchez",
                       status: "Alive",
@@ -53,56 +54,76 @@ final class DiskStorageManagerTests: XCTestCase {
 
         ]
 
+        // When
         storageManager.saveCharacters(testCharacters)
         let loadedCharacters = storageManager.loadCharacters()
 
+        // Then
         XCTAssertNotNil(loadedCharacters)
         XCTAssertEqual(testCharacters, loadedCharacters)
     }
 
-    func testLoadCharactersReturnsNilWhenFileDoesNotExist() {
+    func testGivenNotExistFile_WhenLoadCharacters_ThenReturnsNil() {
+        // Given
+        // File does not exist
+
+        // When
         let loadedCharacters = storageManager.loadCharacters()
 
+        // Then
         XCTAssertNil(loadedCharacters)
     }
 
-    func testSaveAndLoadImage() throws {
+    func testGivenImageData_WhenSaveImage_ThenReturnsSameImageData() throws {
+        // Given
         let imageData = "TestImage".data(using: .utf8)!
         let imageKey = "testImageKey"
 
+        // When
         storageManager.saveImage(imageData, key: imageKey)
         let loadedImageData = storageManager.loadImage(key: imageKey)
 
+        // Then
         XCTAssertNotNil(loadedImageData)
         XCTAssertEqual(imageData, loadedImageData)
     }
 
-    func testLoadImageReturnsNilWhenFileDoesNotExist() {
+    func testGivenNonExistImageKey_WhenLoadImage_ThenReturnsNil() {
+        // Given
         let nonExistentKey = "nonExistentKey"
 
+        // When
         let loadedImageData = storageManager.loadImage(key: nonExistentKey)
 
+        // Then
         XCTAssertNil(loadedImageData)
     }
 
-    func testSaveImageHandlesErrors() {
+    func testGivenInvalidImageKey_WhenSaveImage_ThenLoadImageReturnsNil() {
+        // Given
         let imageData = Data()
         let invalidKey = "/invalid/path/imageKey"
 
+        // When
         storageManager.saveImage(imageData, key: invalidKey)
-
         let loadedData = storageManager.loadImage(key: invalidKey)
+
+        // Then
         XCTAssertNil(loadedData)
     }
 
-    func testSaveCharactersHandlesErrors() {
+    func testGivenInvalidCharactersData_WhenSaveCharacters_ThenThrowsError() {
+        // Given
         let testCharacters = [["invalidKey": "value"]]
         let fileURL = documentsDirectory.appendingPathComponent("invalidPath/characters.json")
 
+        // When
         do {
             let data = try JSONEncoder().encode(testCharacters)
             try data.write(to: fileURL)
+            XCTFail("Expected writing to invalid path to fail")
         } catch {
+            // Then
             XCTAssertNotNil(error)
         }
     }

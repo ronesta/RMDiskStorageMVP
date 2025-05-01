@@ -30,15 +30,25 @@ final class CharactersViewControllerTests: XCTestCase {
         super.tearDown()
     }
 
-    func testViewDidLoadCallsPresenterViewDidLoad() {
+    func testGivenViewController_WhenViewDidLoad_ThenPresenterViewDidLoadIsCalled() {
+        // Given
+        // ViewController initialized with mockPresenter & mockDataSource
+
+        // When
         viewController.viewDidLoad()
 
+        // Then
         XCTAssertTrue(mockPresenter.viewDidLoadCalled)
     }
 
-    func testSetupViews() {
+    func testGivenViewController_WhenViewDidLoad_ThenTableViewIsConfigured() {
+        // Given
+        // ViewController initialized with mockPresenter & mockDataSource
+
+        // When
         viewController.viewDidLoad()
 
+        // Then
         XCTAssertNotNil(viewController.tableView.dataSource)
         XCTAssertTrue(viewController.tableView.dataSource === mockDataSource)
 
@@ -46,7 +56,8 @@ final class CharactersViewControllerTests: XCTestCase {
         XCTAssertTrue(viewController.tableView.delegate === viewController)
     }
 
-    func testUpdateCharactersReloadsData() {
+    func testGivenCharacters_WhenUpdateCharacters_ThenDataSourceIsUpdated() {
+        // Given
         let characters = [
             Character(name: "John Doe",
                       status: "Alive",
@@ -64,17 +75,22 @@ final class CharactersViewControllerTests: XCTestCase {
                      )
         ]
 
+        // When
         viewController.updateCharacters(characters)
 
+        // Then
         XCTAssertEqual(mockDataSource.characters, characters)
     }
 
-    @MainActor func testShowErrorDisplaysAlert() {
+    @MainActor func testGivenErrorMessage_WhenShowError_ThenDisplaysAlert() {
+        // Given
         let errorMessage = "Test Error"
         let alertVerifier = AlertVerifier()
 
+        // When
         viewController.showError(errorMessage)
 
+        // Then
         alertVerifier.verify(
             title: "Error",
             message: "Test Error",

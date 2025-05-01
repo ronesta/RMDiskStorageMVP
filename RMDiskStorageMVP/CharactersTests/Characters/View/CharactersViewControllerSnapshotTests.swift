@@ -10,7 +10,8 @@ import SnapshotTesting
 @testable import RMDiskStorageMVP
 
 final class CharactersViewControllerSnapshotTests: XCTestCase {
-    func testCharactersViewControllerAppearance() {
+    func testGivenCharacters_WhenUpdated_ThenViewControllerAppearanceMatchesSnapshot() {
+        // Given
         let presenter = MockPresenter()
         let dataSource = MockDataSource()
 
@@ -34,9 +35,11 @@ final class CharactersViewControllerSnapshotTests: XCTestCase {
                      )
         ]
 
+        // When
         viewController.loadViewIfNeeded()
         viewController.updateCharacters(characters)
-
+        
+        // Then
         assertSnapshot(of: navigationController, as: .image)
     }
 }

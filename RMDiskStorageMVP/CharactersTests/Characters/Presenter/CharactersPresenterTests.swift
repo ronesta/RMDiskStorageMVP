@@ -33,7 +33,8 @@ final class CharactersPresenterTests: XCTestCase {
         super.tearDown()
     }
 
-    func testViewDidLoadWhenCharactersAreSaved() {
+    func testGivenSavedCharacters_WhenViewDidLoad_ThenCharactersAreDisplayedFromStorage() {
+        // Given
         let savedCharacters = [
             Character(name: "Summer Smith",
                       status: "Alive",
@@ -53,15 +54,18 @@ final class CharactersPresenterTests: XCTestCase {
 
         mockStorageManager.saveCharacters(savedCharacters)
 
+        // When
         presenter.viewDidLoad()
 
+        // Then
         XCTAssertEqual(mockView.updateCharactersCallCount, 1)
         XCTAssertEqual(mockView.updateCharactersArgsCharacters.first, savedCharacters)
         XCTAssertEqual(mockView.showErrorCallCount, 0)
 
     }
 
-    func testViewDidLoadWhenCharactersAreNotSaved() {
+    func testGivenNoSavedCharacters_WhenViewDidLoad_ThenCharactersAreFetchedAndDisplayed() {
+        // Given
         let fetchedCharacters = [
             Character(name: "Rick Sanchez",
                       status: "Alive",
@@ -82,8 +86,10 @@ final class CharactersPresenterTests: XCTestCase {
 
         mockService.stubbedCharactersResult = .success(fetchedCharacters)
 
+        // When
         presenter.viewDidLoad()
 
+        // Then
         XCTAssertEqual(mockService.getCharactersCallCount, 1)
         XCTAssertEqual(mockView.updateCharactersCallCount, 1)
         XCTAssertEqual(mockView.updateCharactersArgsCharacters.first, fetchedCharacters)
@@ -91,12 +97,15 @@ final class CharactersPresenterTests: XCTestCase {
         XCTAssertEqual(mockStorageManager.characters, fetchedCharacters)
     }
 
-    func testGetCharactersFailureShowsError() {
+    func testGivenServiceFailure_WhenViewDidLoad_ThenErrorIsDisplayed() {
+        // Given
         let expectedError = NSError(domain: "Test", code: 0, userInfo: nil)
-
         mockService.stubbedCharactersResult = .failure(expectedError)
+
+        // When
         presenter.viewDidLoad()
 
+        // Then
         XCTAssertEqual(mockService.getCharactersCallCount, 1)
         XCTAssertEqual(mockView.showErrorCallCount, 1)
         XCTAssertEqual(mockView.updateCharactersCallCount, 0)
