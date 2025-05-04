@@ -32,7 +32,7 @@ final class CharactersService: CharactersServiceProtocol {
         urlSession.dataTask(with: url) { data, _, error in
             if let error {
                 print("Error: \(error.localizedDescription)")
-                DispatchQueue.main.async {
+                self.dispatchQueue.async  {
                     completion(.failure(error))
                 }
                 return

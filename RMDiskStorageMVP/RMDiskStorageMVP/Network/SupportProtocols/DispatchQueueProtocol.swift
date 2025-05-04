@@ -16,9 +16,3 @@ extension DispatchQueue: DispatchQueueProtocol {
         async(execute: block)
     }
 }
-
-//struct MainDispatchQueue: DispatchQueueProtocol {
-//    func async(_ block: @escaping () -> Void) {
-//        DispatchQueue.main.async(execute: block)
-//    }
-//}
